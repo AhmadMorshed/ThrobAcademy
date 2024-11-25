@@ -1,0 +1,69 @@
+﻿ @model IEnumerable<LiveSession>
+@{
+
+    ViewData["Title"] = "Index";
+}
+@if (Model.Count() > 0)
+
+{
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(c => c.Id)</th>
+                <th>@Html.DisplayNameFor(c => c.Date)</th>
+                <th>@Html.DisplayNameFor(c => c.courses)</th>
+                <th>@Html.DisplayNameFor(c => c.Title)</th>
+                <th>@Html.DisplayNameFor(c => c.Url)</th>
+
+
+
+                <th>Details</th>
+                <th>Update</th>
+                <th>Delete</th>
+
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach (var liveSession in Model)
+            {
+                <tr>
+                    <td>@liveSession.Id</td>
+                    <td>@liveSession.Title</td>
+                    <td>@liveSession.Url</td>
+                    <td>@liveSession.courses</td>
+                    <td>@liveSession.Date</td>
+
+
+                    <td>
+                        <a asp-action="Details" asp-route-id="liveSession.Id" class="btn btn-warning">
+                            <i class="fas fa-eye"></i>Details
+
+                        </a>
+                    </td>
+                    <td>
+                        <a asp-action="Update" asp-route-id="liveSession.Id" class="btn btn-success">
+                            <i class="fas fa-edit"></i>Update
+
+                        </a>
+                    </td>
+                    <td>
+                        <a asp-action="Delete" asp-route-id="liveSession.Id" class="btn btn-danger">
+                            <i class="fas fa-trash"></i>Delete
+
+                        </a>
+                    </td>
+                </tr>
+            }
+
+
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="mt-5 alert alert-warning">
+        <h3>There is on LiveSession</h3>
+    </div>
+}
+
