@@ -15,7 +15,9 @@ namespace Throb.Data.Entities
         public string Description { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-
+        public DateTime CreatedAt { get; set; }
+        public decimal  CoursePrice  { get; set; }
+        public int EnrolledStudentsCount { get; set; }
         public ICollection<Student>? Students { get; set; }
         public ICollection<InstructorCourse>? InstructorCourses { get; set; }
         public ICollection<StudentCourse>? StudentCourses { get; set; }
@@ -23,5 +25,6 @@ namespace Throb.Data.Entities
         public int? LiveSessionId { get; set; }
         public DriveSession? DriveSession { get; set; }
         public int? DriveSessionId { get; set; }
+        public int StudentCount { get; set; }
     }
 }

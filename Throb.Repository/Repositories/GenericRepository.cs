@@ -1,4 +1,5 @@
-﻿using Throb.Data.DbContext;
+﻿using Microsoft.EntityFrameworkCore;
+using Throb.Data.DbContext;
 using Throb.Repository.Interfaces;
 
 namespace Throb.Repository.Repositories

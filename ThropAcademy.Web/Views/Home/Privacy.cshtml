@@ -1,5 +1,199 @@
 ﻿@{
     ViewData["Title"] = "Privacy Policy";
 }
-<h1>@ViewData["Title"]</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
 
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        h1 {
+            color: #003366;
+            font-size: 2.5em;
+            text-align: center;
+            margin-top: 30px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #004d99;
+            font-size: 1.8em;
+            margin-top: 20px;
+            border-bottom: 2px solid #004d99;
+            padding-bottom: 10px;
+        }
+
+        p {
+            color: #555;
+            font-size: 1.1em;
+            line-height: 1.7;
+            margin-bottom: 15px;
+            padding: 0 20px;
+        }
+
+        ul {
+            padding-left: 40px;
+            margin-bottom: 20px;
+        }
+
+            ul li {
+                margin-bottom: 10px;
+                font-size: 1.1em;
+                color: #444;
+            }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-top: 50px;
+        }
+
+        .highlight {
+            background-color: #e3f2fd;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .btn-contact {
+            display: inline-block;
+            background-color: #004d99;
+            color: white;
+            padding: 10px 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1.2em;
+            transition: background-color 0.3s;
+        }
+
+            .btn-contact:hover {
+                background-color: #003366;
+            }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.9em;
+            color: #888;
+        }
+
+        /* Animation for the paragraphs */
+        p {
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+        }
+
+         fadeIn {
+            to
+
+        {
+            opacity: 1;
+        }
+
+        }
+
+        .container h2 {
+            animation: slideIn 1s ease-in-out;
+        }
+
+         slideIn {
+            from
+
+        {
+            transform: translateY(-50px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>@ViewData["Title"]</h1>
+
+        <p>مرحبًا بك في <span class="highlight">Throb Academy</span>! نحن نأخذ خصوصيتك على محمل الجد ونلتزم بحماية معلوماتك الشخصية. في سياسة الخصوصية هذه، نشرح كيف نجمع ونستخدم ونحمي بياناتك عندما تستخدم منصتنا التعليمية الافتراضية. يرجى قراءة هذه السياسة بعناية لفهم ممارساتنا في التعامل مع بياناتك.</p>
+
+        <h2>المعلومات التي نقوم بجمعها</h2>
+        <p>نقوم بجمع أنواع مختلفة من المعلومات عند استخدامك لمنصتنا التعليمية الافتراضية:</p>
+        <ul>
+            <li><strong>المعلومات الشخصية:</strong> مثل اسمك، عنوان بريدك الإلكتروني، رقم الهاتف، تاريخ الميلاد، والمعلومات الأكاديمية التي تقدمها عند التسجيل في المنصة.</li>
+            <li><strong>المعلومات التعليمية:</strong> مثل الدورات التدريبية التي تشارك فيها، التقدم الأكاديمي، التقييمات، والاختبارات.</li>
+            <li><strong>المعلومات التقنية:</strong> مثل نوع الجهاز، عنوان بروتوكول الإنترنت (IP)، نظام التشغيل، المتصفح الذي تستخدمه، وبيانات أخرى يتم جمعها عبر ملفات تعريف الارتباط (Cookies).</li>
+            <li><strong>المحتوى المقدم من المستخدمين:</strong> مثل المقالات، الملاحظات، والمشاركات التي تقوم بإضافتها في الدورات أو المنتديات.</li>
+        </ul>
+
+        <h2>كيفية استخدام معلوماتك</h2>
+        <p>نستخدم المعلومات التي نجمعها منك لأغراض متنوعة تتضمن:</p>
+        <ul>
+            <li><strong>توفير الخدمات:</strong> لمساعدتك في الوصول إلى الدورات التدريبية، التفاعل مع المعلمين والزملاء، وتحقيق أهدافك التعليمية.</li>
+            <li><strong>تحسين المنصة:</strong> لتحليل استخدام المنصة وتحسين المحتوى والخدمات التي نقدمها بما يتناسب مع احتياجاتك.</li>
+            <li><strong>التواصل معك:</strong> لإرسال رسائل تتعلق بالدورات التي تسجل فيها، التحديثات المتعلقة بمنصتنا، أو التواصل حول استفساراتك الشخصية.</li>
+            <li><strong>الأمان:</strong> لحماية حسابك وبياناتك من الوصول غير المصرح به أو الاستخدام غير القانوني.</li>
+        </ul>
+
+        <h2>مشاركة معلوماتك</h2>
+        <p>نحن نحترم خصوصيتك ولن نبيع أو نؤجر معلوماتك الشخصية لأطراف ثالثة. ومع ذلك، قد نشارك بعض المعلومات في الحالات التالية:</p>
+        <ul>
+            <li><strong>مع مزودي الخدمة:</strong> قد نشارك معلوماتك مع مزودي الخدمة الذين يساعدوننا في تشغيل منصتنا، مثل خدمات الاستضافة، أدوات التحليل، والدفع عبر الإنترنت. هؤلاء المزودون ملزمون بحماية بياناتك الشخصية.</li>
+            <li><strong>الأغراض القانونية:</strong> قد نكشف عن معلوماتك إذا كان ذلك ضروريًا للامتثال للقوانين المعمول بها أو لحماية حقوقنا القانونية أو حقوق الآخرين.</li>
+        </ul>
+
+        <h2>ملفات تعريف الارتباط (Cookies)</h2>
+        <p>نستخدم ملفات تعريف الارتباط لتحسين تجربتك على منصتنا. ملفات تعريف الارتباط هي ملفات صغيرة يتم تخزينها على جهازك وتساعدنا في تذكر تفضيلاتك والإجراءات السابقة مثل تسجيل الدخول وإعدادات اللغة. يمكنك التحكم في ملفات تعريف الارتباط من خلال إعدادات متصفحك.</p>
+
+        <h2>حماية بياناتك</h2>
+        <p>نأخذ إجراءات أمنية معقولة لحماية بياناتك الشخصية من الفقدان أو الوصول غير المصرح به أو التعديل أو الكشف. نقوم بتشفير البيانات الحساسة ونستخدم أنظمة حماية متقدمة لضمان سرية المعلومات.</p>
+
+        <h2>حقوقك في البيانات</h2>
+        <p>بموجب القوانين المعمول بها، لديك حقوق متعددة بشأن بياناتك الشخصية، بما في ذلك:</p>
+        <ul>
+            <li><strong>الوصول:</strong> يمكنك طلب الوصول إلى البيانات التي لدينا عنك.</li>
+            <li><strong>التصحيح:</strong> إذا كانت بياناتك غير دقيقة أو غير كاملة، يمكنك طلب تصحيحها.</li>
+            <li><strong>الحذف:</strong> يمكنك طلب حذف بياناتك الشخصية وفقًا للظروف المحددة.</li>
+            <li><strong>الاعتراض:</strong> يمكنك الاعتراض على بعض طرق معالجة بياناتك، مثل التسويق المباشر.</li>
+        </ul>
+
+        <h2>التغييرات على سياسة الخصوصية</h2>
+        <p>قد نقوم بتحديث سياسة الخصوصية هذه من وقت لآخر. سنقوم بنشر أي تغييرات على هذه الصفحة مع تواريخ التحديث. لذا، ننصحك بمراجعة هذه الصفحة بشكل دوري لتبقى على اطلاع بأحدث السياسات.</p>
+
+        <h2>كيفية الاتصال بنا</h2>
+        <p>إذا كان لديك أي أسئلة أو استفسارات بشأن سياسة الخصوصية هذه أو كيفية تعاملنا مع بياناتك الشخصية، يمكنك الاتصال بنا على:</p>
+        <ul>
+            <li><strong>البريد الإلكتروني:</strong> contact@throbacademy.com</li>
+            <li><strong>الهاتف:</strong> 00963 933 642 596</li>
+            <li><strong>العنوان:</strong> 1234 Main St, Damascus, Syria</li>
+        </ul>
+
+        <a href="mailto:contact@throbacademy.com" class="btn-contact">اتصل بنا</a>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2024 Throb Academy. جميع الحقوق محفوظة.</p>
+    </div>
+
+</body>
+</html>

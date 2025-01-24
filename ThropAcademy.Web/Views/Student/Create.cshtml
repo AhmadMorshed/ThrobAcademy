@@ -1,10 +1,13 @@
-﻿@model Student
+﻿@model Throb.Data.Entities.Student
+
 @{
     ViewData["Title"] = "Create New Student";
 }
 
 <h1>Create New Student</h1>
-
+<br />
+<br />
+<br />
 <form asp-action="Create" method="post">
     <div class="form-group">
         <label class="col-form-label" asp-for="Name"></label>
@@ -26,11 +29,10 @@
 
     <!-- اختيار الكورس -->
     <div class="form-group">
-        <label class="col-form-label" asp-for="Courses">Select Course</label>
-        <select asp-for="Courses" class="form-control" asp-items="ViewBag.Courses" multiple="multiple"></select>
+        <label class="col-form-label">Select Courses</label>
+        <select asp-for="Courses" class="form-control" asp-items="ViewBag.Courses" multiple="multiple" name="selectedCourses"></select>
         <span asp-validation-for="Courses" class="text-danger"></span>
     </div>
-
 
     @Html.ValidationSummary(true, "StudentErrors", "Error while Adding Student")
 

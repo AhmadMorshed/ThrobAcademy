@@ -1,0 +1,109 @@
+﻿@model Throb.Data.Entities.Student
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1 class="text-center my-4">Register</h1>
+
+<!-- عرض رسالة التأكيد إذا كانت موجودة -->
+@if (TempData["RegistrationSuccess"] != null)
+{
+    <div class="alert alert-success text-center">
+        @TempData["RegistrationSuccess"]
+    </div>
+}
+
+<!-- عرض رسالة الدفع إذا كانت موجودة -->
+@if (TempData["PaymentStatus"] != null)
+{
+    <div class="alert alert-success text-center">
+        @TempData["PaymentStatus"]
+    </div>
+}
+
+<form asp-action="Register" method="post">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <!-- حقل الاسم -->
+                <div class="form-group">
+                    <label class="col-form-label" asp-for="Name">Full Name</label>
+                    <input asp-for="Name" class="form-control" placeholder="Enter your full name" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <!-- حقل البريد الإلكتروني -->
+                <div class="form-group">
+                    <label class="col-form-label" asp-for="Email">Email Address</label>
+                    <input asp-for="Email" type="email" class="form-control" placeholder="Enter your email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <!-- حقل كلمة المرور -->
+                <div class="form-group">
+                    <label class="col-form-label" asp-for="Password">Password</label>
+                    <input asp-for="Password" type="password" class="form-control" placeholder="Enter your password" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <!-- حقل اختيار الكورس إذا كان موجودًا -->
+                @if (ViewBag.SelectedCourse != null)
+                {
+                    <input type="hidden" name="courseId" value="@ViewBag.SelectedCourse.Id" />
+                    <div class="form-group">
+                        <label>Course: @ViewBag.SelectedCourse.Name</label>
+                    </div>
+                }
+
+                <!-- حقل طريقة الدفع -->
+                <div class="form-group">
+                    <label for="PaymentMethod">Payment Method</label>
+                    <select class="form-control" name="paymentMethod" id="PaymentMethod" required>
+                        <option value="Card">Credit Card</option>
+                        <option value="Cash">Cash on Delivery</option>
+                    </select>
+                </div>
+
+                <!-- زر التسجيل -->
+                <div class="form-group text-center">
+                    <button type="submit" class="btn btn-primary btn-lg w-100">Register</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!-- تضمين نمط الخطوط والظلال لتحسين المظهر -->
+<style>
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-control {
+        border-radius: 0.375rem;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        font-size: 1.1rem;
+        padding: 12px;
+        font-weight: 600;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+    h1 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .container {
+        padding: 20px;
+    }
+</style>

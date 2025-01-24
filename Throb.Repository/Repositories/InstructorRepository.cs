@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,16 @@ namespace Throb.Repository.Repositories
         public InstructorRepository(ThrobDbContext context) : base(context)
         {
             _context = context;
+        }
+
+        public IEnumerable<Instructor> GetInstructorByName(string name)
+                => _context.Instructors.Where(s => s.Name.Trim().ToLower().Contains(name.Trim().ToLower())).ToList();
+
+
+        IQueryable<Instructor> IInstructorRepository.GetAll()
+        {
+            return _context.Instructors
+                .Include(s => s.Courses);
         }
 
         //public void Add(Instructor instructor)

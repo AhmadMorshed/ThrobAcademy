@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Throb.Data.Entities
+﻿namespace Throb.Data.Entities
 {
     public class LiveSession
     {
         public int Id { get; set; }
-        public string Title { get; set; }
-        public DateTime Date { get; set; }
-        public string Url { get; set; }
-        public ICollection<Course> courses { get; set; }
+        public string Title { get; set; }  // عنوان الجلسة
+        public DateTime Date { get; set; }  // تاريخ الجلسة
+        public int CourseId { get; set; }  // ربط الجلسة بالكورس
+        public Course Course { get; set; }  // البيانات المتعلقة بالكورس
+        public string DiscordLink { get; set; }  // رابط Discord
+        public string VConnectLink { get; set; } // رابط vConnect
     }
 }

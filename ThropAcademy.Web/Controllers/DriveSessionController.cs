@@ -1,21 +1,30 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Throb.Repository.Interfaces;
+using Throb.Service.Interfaces;
+using Throb.Data.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ThropAcademy.Web.Controllers
 {
     public class DriveSessionController : Controller
     {
-        private readonly IDriveSessionRepository _driveSessionRepository;
+        private readonly ICourseService _courseService;
 
-        public DriveSessionController(IDriveSessionRepository driveSessionRepository)
+        // Constructor to inject the ICourseService
+        public DriveSessionController(ICourseService courseService)
         {
-            _driveSessionRepository = driveSessionRepository;
+            _courseService = courseService;
         }
+
+        //[Authorize(Roles = "Student")]
+        //[Authorize(Roles = "Instructor")]
 
         public IActionResult Index()
         {
-            var drivesession = _driveSessionRepository.GetAll();
-            return View();
+            // الحصول على جميع الكورسات
+            var courses = _courseService.GetAll();
+
+            // تمرير قائمة الكورسات إلى الـ View
+            return View(courses);
         }
     }
 }

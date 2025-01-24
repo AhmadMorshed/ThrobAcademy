@@ -1,0 +1,38 @@
+﻿@model IdentityRole
+@{
+    ViewData["Title"] = "Role Details";
+}
+
+<h1 class="text-center mb-4">Role Details</h1>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg border-light">
+                <div class="card-header bg-info text-white text-center">
+                    <h4>Role Information</h4>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label class="font-weight-bold">Role Id:</label>
+                        <p>@Model.Id</p>
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-bold">Role Name:</label>
+                        <p>@Model.Name</p>
+                    </div>
+
+                    <!-- Buttons to Edit or Go Back -->
+                    <div class="form-group row justify-content-center mt-4">
+                        <div class="col-auto">
+                            <a class="btn btn-warning" asp-action="Update" asp-route-id="@Model.Id">Edit</a>
+                        </div>
+                        <div class="col-auto">
+                            <a class="btn btn-secondary" asp-action="Index">Back to List</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

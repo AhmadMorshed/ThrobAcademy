@@ -1,0 +1,39 @@
+﻿@model ApplicationUser
+
+<h1 class="text-center mb-4">Update User</h1>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg border-light">
+                <div class="card-header bg-info text-white text-center">
+                    <h4>Update User Information</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Update" asp-controller="User">
+                        <input type="hidden" asp-for="Id" />
+
+                        <!-- Username Field -->
+                        <div class="form-group row">
+                            <label for="userName" class="col-sm-3 col-form-label font-weight-bold">Username:</label>
+                            <div class="col-sm-9">
+                                <input asp-for="UserName" class="form-control" />
+                                <span asp-validation-for="UserName" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="form-group row mt-4 justify-content-center">
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                            <div class="col-auto">
+                                <a asp-action="Index" class="btn btn-light">Back To List</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

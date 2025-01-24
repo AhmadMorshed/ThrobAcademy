@@ -3,6 +3,7 @@ using Throb.Data.Entities;
 using System.Linq;
 
 using Throb.Repository.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Throb.Repository.Repositories
 {
@@ -13,6 +14,13 @@ namespace Throb.Repository.Repositories
         public CourseRepository(ThrobDbContext context) : base(context)
         {
             _context = context;
+        }
+
+        public IQueryable<Course> GetAl()
+        {
+            return _context.Courses
+                .Include(s =>s.InstructorCourses )
+                ;
         }
 
         //public void Add(Course course)

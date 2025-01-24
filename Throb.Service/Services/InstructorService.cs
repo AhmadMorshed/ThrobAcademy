@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Throb.Data.Entities;
 using Throb.Repository.Interfaces;
+using Throb.Repository.Repositories;
 using Throb.Service.Interfaces;
 
 namespace Throb.Service.Services
@@ -20,33 +21,57 @@ namespace Throb.Service.Services
 
         public void Add(Instructor instructor)
         {
-            var mappedInstructor = new Instructor
-            {
-                Name = instructor.Name,
-                Email = instructor.Email,
-                Password = instructor.Password,
-                CreateAt = instructor.CreateAt,
-            };            
+            _instructorRepository.Add(instructor);
+
         }
 
         public void Delete(Instructor instructor)
         {
-            throw new NotImplementedException();
+            var existinginstructor = _instructorRepository.GetById(instructor.Id);
+            if (existinginstructor == null)
+
+            {
+                throw new ArgumentException($"instructor with ID {instructor.Id} not found.");
+            }
+
+            // حذف الطالب
+            _instructorRepository.Delete(existinginstructor);
         }
 
         public IEnumerable<Instructor> GetAll()
         {
-            throw new NotImplementedException();
+            var instructors = _instructorRepository.GetAll();
+            return instructors;
         }
 
         public Instructor GetById(int id)
         {
-            throw new NotImplementedException();
+            var instructor = _instructorRepository.GetById(id);
+            if (instructor == null)
+            {
+                throw new ArgumentException($"Instructor with ID {id} not found.");
+            }
+            return instructor;
         }
 
         public void Update(Instructor instructor)
         {
-            throw new NotImplementedException();
+            var existingInstructor = _instructorRepository.GetById(instructor.Id);
+            if (existingInstructor == null)
+            {
+                throw new ArgumentException($"instructor with ID {instructor.Id} does not exist.");
+            }
+
+            // تحديث البيانات
+            existingInstructor.Name = instructor.Name;
+            existingInstructor.Email = instructor.Email;
+            existingInstructor.Password = instructor.Password;
+
+            // تحديث الكورسات في حال وجود تعديلات
+            existingInstructor.Courses = instructor.Courses;
+
+            // حفظ التغييرات
+            _instructorRepository.Update(existingInstructor);
         }
     }
 }

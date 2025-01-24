@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +10,7 @@ using Throb.Data.Entities;
 
 namespace Throb.Data.DbContext
 {
-    public class ThrobDbContext : Microsoft.EntityFrameworkCore.DbContext
+    public class ThrobDbContext : IdentityDbContext<ApplicationUser>
     {
         public ThrobDbContext(DbContextOptions options) : base(options)
         {
@@ -55,7 +57,10 @@ namespace Throb.Data.DbContext
 
 
 
-
+            modelBuilder.Entity<LiveSession>()
+           .HasOne(ls => ls.Course)
+           .WithOne(c => c.LiveSession)
+           .HasForeignKey<LiveSession>(ls => ls.CourseId);
 
 
 
@@ -65,13 +70,14 @@ namespace Throb.Data.DbContext
 
         }
 
-        public DbSet<Student> Students { get; set; }
+       public DbSet<Student> Students { get; set; }
        public DbSet<Instructor> Instructors { get; set; }
-    public    DbSet<Course> Courses { get;set; }
- public       DbSet<LiveSession> LiveSessions { get; set; }
-     public   DbSet<DriveSession> DriveSessions { get; set; }
-  public      DbSet<Video> Videos { get; set; }
-      public  DbSet<Pdf> Pdfs { get; set; }
-      public  DbSet<Assignment> Assignments { get; set; }
+       public DbSet<Course> Courses { get;set; }
+       public DbSet<LiveSession> LiveSessions { get; set; }
+       public DbSet<DriveSession> DriveSessions { get; set; }
+       public DbSet<Video> Videos { get; set; }
+       public DbSet<Pdf> Pdfs { get; set; }
+       public DbSet<Assignment> Assignments { get; set; }
+       public DbSet<StudentCourse> StudentCourses { get; set; }
     }
 }

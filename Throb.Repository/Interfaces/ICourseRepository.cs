@@ -9,11 +9,12 @@ namespace Throb.Repository.Interfaces
 {
     public interface ICourseRepository:IGenericRepository<Course>
     {
-        //Course GetById(int id);
+        
+        IQueryable<Course> GetAl();
+//Course GetById(int id);
         //IEnumerable<Course> GetAll();
         //void Add(Course course);
         //void Update(Course course);
         //void Delete(Course course);
-
     }
 }

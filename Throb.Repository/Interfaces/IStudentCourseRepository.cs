@@ -9,6 +9,6 @@ namespace Throb.Repository.Interfaces
 {
     public interface IStudentCourseRepository : IGenericRepository<StudentCourse>
     {
-      
+        IEnumerable<StudentCourse> GetAll();
     }
 }

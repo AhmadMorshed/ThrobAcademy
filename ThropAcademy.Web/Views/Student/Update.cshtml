@@ -1,0 +1,42 @@
+﻿@model Student
+
+@{
+    ViewData["Title"] = "Update Student";
+}
+
+<h1>Update Student</h1>
+<br />
+<br />
+<br />
+
+<form asp-action="Update" method="post">
+    <div class="form-group">
+        <label class="col-form-label" asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label class="col-form-label" asp-for="Email"></label>
+        <input asp-for="Email" type="email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label class="col-form-label" asp-for="Password"></label>
+        <input asp-for="Password" type="password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <!-- اختيار الكورس -->
+    <div class="form-group">
+        <label class="col-form-label">Select Courses</label>
+    
+        <span asp-validation-for="Courses" class="text-danger"></span>
+    </div>
+
+    @Html.ValidationSummary(true, "StudentErrors", "Error while Updating Student")
+
+    <input type="submit" value="Update" class="btn btn-primary" />
+    <a asp-action="Index" class="btn btn-light">Back To List</a>
+</form>

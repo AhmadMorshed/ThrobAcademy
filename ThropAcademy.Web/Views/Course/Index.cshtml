@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<Course>
+
 @{
     ViewData["Title"] = "Courses List";
 }
@@ -15,6 +16,9 @@
                 <th>@Html.DisplayNameFor(c => c.Description)</th>
                 <th>@Html.DisplayNameFor(c => c.StartDate)</th>
                 <th>@Html.DisplayNameFor(c => c.EndDate)</th>
+                <th>@Html.DisplayNameFor(c => c.CoursePrice)</th>
+
+                <th>Number of Students</th> <!-- العمود الجديد لعدد الطلاب -->
                 <th>Details</th>
                 <th>Update</th>
                 <th>Delete</th>
@@ -29,6 +33,10 @@
                     <td>@course.Description</td>
                     <td>@course.StartDate.ToString("dd/MM/yyyy")</td>
                     <td>@course.EndDate.ToString("dd/MM/yyyy")</td>
+                    <td>@course.CoursePrice.ToString("C")</td>
+
+
+                    <td>@course.StudentCount</td> <!-- عرض عدد الطلاب في الكورس -->
                     <td>
                         <a asp-action="Details" asp-route-id="@course.Id" class="btn btn-warning">
                             <i class="fas fa-eye"></i> Details

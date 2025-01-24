@@ -10,8 +10,10 @@ namespace Throb.Service.Interfaces
     public interface ICourseService
     {
 
-        Course GetById(int id);
+        Course GetById(int? id);
         IEnumerable<Course> GetAll();
+       // IQueryable<Course> GetAll();
+
         void Add(Course course);
         void Update(Course course);
         void Delete(Course course);

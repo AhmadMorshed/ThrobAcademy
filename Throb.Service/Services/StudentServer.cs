@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Throb.Data.Entities;
 using Throb.Repository.Interfaces;
-using Throb.Repository.Repositories;
 using Throb.Service.Interfaces;
 
 namespace Throb.Service.Services
@@ -19,42 +15,68 @@ namespace Throb.Service.Services
             _studentRepository = studentRepository;
         }
 
+        // إضافة طالب
         public void Add(Student student)
         {
-            var mappedStudent = new Student
-            {
-
-                Name = student.Name,
-                Email= student.Email,
-                Password= student.Password,
-                Courses= student.Courses,
-                
-
-
-            };
-            _studentRepository.Add(mappedStudent);
-            
+            // إضافة الطالب مباشرة دون الحاجة إلى تحويله
+            _studentRepository.Add(student);
         }
 
+        // حذف طالب
         public void Delete(Student student)
         {
-            throw new NotImplementedException();
+            // التحقق إذا كان الطالب موجودًا
+            var existingStudent = _studentRepository.GetById(student.Id);
+            if (existingStudent == null)
+            {
+                throw new ArgumentException($"Student with ID {student.Id} not found.");
+            }
+
+            // حذف الطالب
+            _studentRepository.Delete(existingStudent);
         }
 
+        // الحصول على جميع الطلاب
         public IEnumerable<Student> GetAll()
         {
             var students = _studentRepository.GetAll();
             return students;
         }
 
+        // الحصول على طالب بناءً على المعرف
         public Student GetById(int id)
         {
-            throw new NotImplementedException();
+            // التحقق من وجود الطالب
+            var student = _studentRepository.GetById(id);
+            if (student == null)
+            {
+                throw new ArgumentException($"Student with ID {id} not found.");
+            }
+            return student;
         }
 
+     
+
+        // تحديث بيانات طالب
         public void Update(Student student)
         {
-            throw new NotImplementedException();
+            // تحقق من وجود الطالب في المستودع
+            var existingStudent = _studentRepository.GetById(student.Id);
+            if (existingStudent == null)
+            {
+                throw new ArgumentException($"Student with ID {student.Id} does not exist.");
+            }
+
+            // تحديث البيانات
+            existingStudent.Name = student.Name;
+            existingStudent.Email = student.Email;
+            existingStudent.Password = student.Password;
+
+            // تحديث الكورسات في حال وجود تعديلات
+            existingStudent.Courses = student.Courses;
+
+            // حفظ التغييرات
+            _studentRepository.Update(existingStudent);
         }
     }
 }

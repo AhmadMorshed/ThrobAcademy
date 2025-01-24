@@ -10,10 +10,11 @@ namespace Throb.Repository.Interfaces
     public interface IInstructorRepository:IGenericRepository<Instructor>
     {
         //Instructor GetById(int id);
-        //IEnumerable<Instructor> GetAll();
+        IQueryable<Instructor> GetAll();
         //void Add (Instructor instructor);
         //void Update (Instructor instructor);
         //void Delete (Instructor instructor);
+        IEnumerable<Instructor> GetInstructorByName(string name);
 
     }
 }

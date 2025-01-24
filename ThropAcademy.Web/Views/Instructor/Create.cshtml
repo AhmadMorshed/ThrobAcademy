@@ -1,52 +1,40 @@
-﻿@model Instructor
+﻿@model Throb.Data.Entities.Instructor
+
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create New Instructor";
 }
+
 <h1>Create New Instructor</h1>
 <br />
 <br />
 <br />
-<br />
-<form asp-action="Create">
-
-    @*     <div class="form-group">
-        <label class="col-form-label" asp-for="Id"></label>
-        <input type="text" asp-for="Id" class="form-control" />
-        <span asp-validation-for="Id" class="text-danger"></span>
-        <br />
-    </div> *@
-
+<form asp-action="Create" method="post">
     <div class="form-group">
         <label class="col-form-label" asp-for="Name"></label>
-        <input type="text" asp-for="Name" class="form-control" />
+        <input asp-for="Name" class="form-control" />
         <span asp-validation-for="Name" class="text-danger"></span>
-        <br />
     </div>
 
     <div class="form-group">
         <label class="col-form-label" asp-for="Email"></label>
-        <input type="email" asp-for="Email" class="form-control" />
+        <input asp-for="Email" type="email" class="form-control" />
         <span asp-validation-for="Email" class="text-danger"></span>
-        <br />
     </div>
 
     <div class="form-group">
         <label class="col-form-label" asp-for="Password"></label>
-        <input type="password" asp-for="Password" class="form-control" />
+        <input asp-for="Password" type="password" class="form-control" />
         <span asp-validation-for="Password" class="text-danger"></span>
-        <br />
     </div>
+
+    <!-- اختيار الكورس -->
     <div class="form-group">
-        <label class="col-form-label" asp-for="InstructorCourses">Select Courses</label>
-        <select asp-for="InstructorCourses" class="form-control" asp-items="ViewBag.Courses" multiple="multiple">
-        </select>
-        <span asp-validation-for="InstructorCourses" class="text-danger"></span>
-        <br />
+        <label class="col-form-label">Select Courses</label>
+        <select asp-for="Courses" class="form-control" asp-items="ViewBag.Courses" multiple="multiple" name="selectedCourses"></select>
+        <span asp-validation-for="Courses" class="text-danger"></span>
     </div>
 
-
-    @Html.ValidationSummary(true, "StudentErrors", "Error while Adding Student");
-    <br />
+    @Html.ValidationSummary(true, "InstructorErrors", "Error while Adding Instructor")
 
     <input type="submit" value="Create" class="btn btn-primary" />
     <a asp-action="Index" class="btn btn-light">Back To List</a>

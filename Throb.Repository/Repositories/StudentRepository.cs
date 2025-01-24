@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,18 @@ namespace Throb.Repository.Repositories
         {
             _context = context;
         }
+        public IQueryable<Student> GetAll()
+        {
+            // جلب جميع الطلاب مع الكورسات المرتبطة
+            return _context.Students
+                .Include(s => s.Courses); // جلب الكورسات المرتبطة بكل طالب
+        }
+
+        public IEnumerable<Student> GetStudentByName(string name)
+        => _context.Students.Where(s => s.Name.Trim().ToLower().Contains(name.Trim().ToLower())).ToList();
+
+       
+
 
         //public void Add(Student student)
         // => _context.Add(student);
@@ -25,7 +38,9 @@ namespace Throb.Repository.Repositories
         //=>_context.Remove(student);
 
         //public IEnumerable<Student> GetAll()
-        //=>_context.Students.ToList();
+        //=> _context.Students.ToList();
+
+
 
         //public Student GetById(int id)
         //=> _context.Students.Find(id);
