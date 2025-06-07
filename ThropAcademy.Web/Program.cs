@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http.Features;
 using Throb.Data.DbContext;
 using Throb.Data.Entities;
 using Throb.Repository.Interfaces;
@@ -15,36 +16,49 @@ namespace ThropAcademy.Web
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // إضافة خدمات النظام إلى الحاوية (DI Container)
+            // إضافة الخدمات
             builder.Services.AddControllersWithViews();
 
-            // تكوين الاتصال بقاعدة البيانات مع استخدام SQL Server
+            // الاتصال بقاعدة البيانات
             builder.Services.AddDbContext<ThrobDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            // تفعيل الهوية
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
-                // إعدادات lockout
-                options.Lockout.MaxFailedAccessAttempts = 10;  // عدد المحاولات الفاشلة قبل القفل
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);  // مدة القفل
-            }).AddEntityFrameworkStores<ThrobDbContext>().AddDefaultTokenProviders();
+                options.Lockout.MaxFailedAccessAttempts = 3;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+            })
+            .AddEntityFrameworkStores<ThrobDbContext>()
+            .AddDefaultTokenProviders();
 
-            // تكوين الكوكيز مع إعدادات أفضل
+            // تفعيل رفع الملفات حتى 100MB
+            builder.Services.Configure<FormOptions>(options =>
+            {
+                options.MultipartBodyLengthLimit = 104857600; // 100MB
+            });
+
+            // الكوكيز
             builder.Services.ConfigureApplicationCookie(options =>
             {
                 options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(60); // مدة الكوكيز
-                options.SlidingExpiration = true; // التحديث التلقائي للجلسة
-                options.LoginPath = "/Account/login"; // مسار صفحة تسجيل الدخول
-                options.LogoutPath = "/Account/Logout"; // مسار تسجيل الخروج
-                options.AccessDeniedPath = "/Account/AccessDenied"; // مسار الوصول المرفوض
-
-                // تأكد من أن الكوكيز تتعامل مع بيئة التطوير بشكل صحيح
-                options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;  // لضمان عمل الكوكيز في بيئة التطوير
-                options.Cookie.SameSite = SameSiteMode.Lax;  // تجنب مشاكل مرور الكوكيز بين المواقع
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+                options.SlidingExpiration = true;
+                options.LoginPath = "/Account/login";
+                options.LogoutPath = "/Account/Logout";
+                options.AccessDeniedPath = "/Account/AccessDenied";
+                options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                options.Cookie.SameSite = SameSiteMode.Lax;
             });
 
-            // إضافة المستودعات (Repositories)
+            // الجلسات
+            builder.Services.AddSession(options =>
+            {
+                options.Cookie.Name = ".Throb.Session";
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+            });
+
+            // المستودعات والخدمات
             builder.Services.AddScoped<ICourseRepository, CourseRepository>();
             builder.Services.AddScoped<IStudentRepository, StudentRepository>();
             builder.Services.AddScoped<IInstructorRepository, InstructorRepository>();
@@ -57,16 +71,9 @@ namespace ThropAcademy.Web
             builder.Services.AddScoped<IDriveSession, DriveSessionService>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-            // إضافة خدمة الـ Session
-            builder.Services.AddSession(options =>
-            {
-                options.Cookie.Name = ".Throb.Session";
-                options.IdleTimeout = TimeSpan.FromMinutes(30); // زمن انتهاء الجلسة
-            });
-
             var app = builder.Build();
 
-            // تكوين خط الأنابيب للطلبات HTTP
+            // الـ middleware
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
@@ -75,18 +82,16 @@ namespace ThropAcademy.Web
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
             app.UseRouting();
+            app.UseAuthentication(); // الترتيب الصحيح
             app.UseAuthorization();
-            app.UseAuthentication();
-            // تفعيل الـ Session في الـ Middleware
             app.UseSession();
 
-            // تكوين Routing للـ Controller و Action الافتراضي
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
-            // تشغيل التطبيق
             await app.RunAsync();
         }
     }

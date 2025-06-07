@@ -65,11 +65,11 @@
         transform: translateY(-3px);
         }
 
-        footer {
+      /*   footer {
         background-color: rgba(0, 51, 102, 0.8);
         color: #ffffff;
-        padding: 20px 0;
-        }
+        padding: 10px 0;
+        } */
 
         /* إضافة تأثير الحواف المستديرة للمحتوى */
         .navbar-nav {
@@ -140,9 +140,8 @@
 
         /* Animation for fade-in */
         fadeIn {
-        from
 
-        {
+        from {
         opacity: 0;
         transform: translateY(20px);
         }
@@ -153,7 +152,7 @@
         }
 
         }
-
+        
         /* أيقونات تسجيل الدخول */
         .login-icon {
         position: absolute;
@@ -209,19 +208,27 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="DriveSession" asp-action="Index">DriveSession</a>
                         </li>
-                        @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
-                        {
+
+                        <li class="nav-item">
+                            <a class="btn btn-success text-white" style="margin-top:5px;" asp-controller="Transcription" asp-action="UploadMedia">🎧 AI Model </a>
+                        </li>
+
+                    
+ِ
+                         @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                        { 
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="User" asp-action="Index">Users</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="Role" asp-action="Index">Roles</a>
                             </li>
-                        }
+                         } 
                     </ul>
                 </div>
             </div>
         </nav>
+
     </header>
 
     <div class="login-icon">

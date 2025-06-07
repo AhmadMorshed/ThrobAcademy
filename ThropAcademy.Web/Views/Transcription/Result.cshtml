@@ -1,0 +1,138 @@
+﻿@{
+    ViewBag.Title = "نتيجة التفريغ الصوتي";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #f0f4f8;
+            margin: 40px auto;
+            max-width: 900px;
+            color: #2c3e50;
+            line-height: 1.8;
+            padding: 0 20px;
+        }
+
+        h2, h3 {
+            text-align: center;
+            color: #34495e;
+        }
+
+        .transcription-container {
+            background-color: #ffffff;
+            padding: 25px 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid #ddd;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        form {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: 600;
+        }
+
+        .btn:hover {
+            background-color: #2c80b4;
+        }
+
+        .questions-container {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            border: 1px solid #ccc;
+        }
+
+        .question-block {
+            background: #f9f9ff;
+            border: 1px solid #dcdde1;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+        }
+
+        .question-block strong {
+            color: #2980b9;
+        }
+
+        .no-text {
+            text-align: center;
+            color: #999;
+            font-style: italic;
+            margin-top: 50px;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <h2>📄 نتيجة تحويل الصوت إلى نص</h2>
+
+    @if (!string.IsNullOrWhiteSpace(ViewBag.Transcription?.ToString()))
+    {
+        <div class="transcription-container">
+            @ViewBag.Transcription
+        </div>
+
+        <form method="post" asp-action="GenerateQuestions" asp-controller="Transcription">
+            <input type="hidden" name="text" value="@ViewBag.Transcription" />
+            <button type="submit" name="type" value="mcq" class="btn">📝 توليد أسئلة اختيار من متعدد</button>
+            <button type="submit" name="type" value="truefalse" class="btn">✅ توليد أسئلة صح أو خطأ</button>
+        </form>
+    }
+    else
+    {
+        <p class="no-text">لم يتم العثور على نص مفرغ.</p>
+    }
+
+    @if (!string.IsNullOrWhiteSpace(ViewBag.Questions?.ToString()))
+    {
+        <div class="questions-container">
+            <h3>📘 الأسئلة المولدة:</h3>
+
+            @{
+                var questionsLines = ViewBag.Questions.ToString().Split('\n');
+                foreach (var line in questionsLines)
+                {
+                    if (line.Trim().StartsWith("1.") || line.Trim().StartsWith("2.") || line.Trim().StartsWith("3.") || line.Trim().StartsWith("4.") || line.Trim().StartsWith("5."))
+                    {
+                        @:<div class="question-block"><strong>@line</strong><br />
+                    }
+                    else if (line.Trim().StartsWith("الإجابة الصحيحة"))
+                    {
+                        @: <em>@line</em></div>
+                    }
+                    else
+                    {
+                        @: @line <br />
+                    }
+                }
+            }
+        </div>
+    }
+
+</body>
+</html>
