@@ -1,117 +1,387 @@
 ﻿@{
-    Layout = null; // لا يوجد Layout
+    Layout = null;
 }
 
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="utf-8" />
-    <title>Upload</title>
+    <title>منصة تعليمية افتراضية - تسجيل أو رفع محاضرة</title>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3135/3135768.png" type="image/png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            background-color: #f5f7fa;
+            background: #f9fafc;
             font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            direction: rtl;
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(to left, #2c3e50, #34495e);
+            color: white;
+            padding: 25px 40px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+            header h1 {
+                margin: 0;
+                font-size: 2rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 12px;
+            }
+
+                header h1::before {
+                    content: "📚";
+                    font-size: 2rem;
+                }
+
+        main {
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 0;
+            padding: 30px 15px 60px;
         }
 
         .upload-container {
             background: #ffffff;
-            padding: 30px 40px;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgb(0 0 0 / 0.1);
-            max-width: 420px;
+            padding: 35px 40px;
+            border-radius: 24px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
+            max-width: 850px;
             width: 100%;
             text-align: center;
         }
 
+        h2 {
+            margin-bottom: 20px;
+            font-weight: 700;
+            font-size: 1.9rem;
+            color: #2c3e50;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
         input[type="file"] {
-            display: none;
-        }
-
-        label.file-label {
-            background-color: #3498db;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
+            border: 2px dashed #ccc;
+            padding: 14px;
+            border-radius: 12px;
+            background-color: #fafafa;
             cursor: pointer;
-            font-weight: 600;
             font-size: 1rem;
-            display: inline-block;
-            transition: background-color 0.3s ease;
-            user-select: none;
-            width: 100%;
-            max-width: 300px;
-            margin: 0 auto 25px auto;
+            color: #555;
+            transition: border 0.3s ease;
         }
 
-            label.file-label:hover {
-                background-color: #2980b9;
+            input[type="file"]:hover {
+                border-color: #2980b9;
             }
+
+        select {
+            width: 100%;
+            padding: 10px 14px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1.5px solid #ddd;
+            color: #333;
+            background: #fff;
+        }
 
         button {
-            background-color: #2ecc71;
-            border: none;
-            color: white;
-            padding: 14px 25px;
+            padding: 14px 20px;
             border-radius: 10px;
-            font-size: 1.1rem;
+            border: none;
+            font-weight: 700;
+            font-size: 1rem;
             cursor: pointer;
-            font-weight: 600;
-            transition: background-color 0.3s ease;
             width: 100%;
-            max-width: 300px;
-            margin: 0 auto;
-            display: block;
+            color: white;
+            transition: background 0.3s ease;
         }
 
-            button:hover {
-                background-color: #27ae60;
+            button:disabled {
+                background-color: #aaa !important;
+                cursor: not-allowed;
             }
 
-        .file-name {
+        .upload-btn {
+            background: #27ae60;
+        }
+
+            .upload-btn:hover:not(:disabled) {
+                background: #219150;
+            }
+
+        .start-btn {
+            background: #2980b9;
+        }
+
+            .start-btn:hover {
+                background: #2471a3;
+            }
+
+        .stop-btn {
+            background: #c0392b;
+        }
+
+            .stop-btn:hover {
+                background: #a93226;
+            }
+
+        .audio-only-btn {
+            background: #8e44ad;
+        }
+
+            .audio-only-btn:hover {
+                background: #7d3c98;
+            }
+
+        video, audio {
+            margin-top: 20px;
+            width: 100%;
+            border-radius: 12px;
+            background-color: #000;
+        }
+
+        .recording-controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        #loading {
+            display: none;
+            margin-top: 15px;
+            color: #2980b9;
+            font-weight: bold;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #eee;
+            margin: 30px 0;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: #fff;
+            text-align: center;
+            padding: 18px;
+            font-size: 0.9rem;
+        }
+
+        media screen and (max-width: 768px) {
+            .upload-container
+
+        {
+            padding: 20px;
+            width: 95%;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+        }
+
+        button {
             font-size: 0.95rem;
-            color: #555;
-            margin-bottom: 15px;
-            min-height: 20px;
-            word-wrap: break-word;
+        }
+
         }
     </style>
 </head>
 <body>
-    <div class="upload-container">
-        <form method="post" enctype="multipart/form-data" asp-controller="Transcription" asp-action="UploadMedia">
-            <label for="mediaFile" class="file-label" tabindex="0">Choose Audio File</label>
-            <input type="file" name="mediaFile" id="mediaFile" accept="audio/*" />
+    <header>
+        <div class="header-left">
+            <span class="platform-icon">🏫</span>
+            <span class="platform-name">Throb Academy</span>
+        </div>
+        <h1>منصة تعليمية افتراضية <span class="main-icon">🎓</span></h1>
+    </header>
 
-            <div class="file-name" id="fileName">No file selected</div>
+    <style>
+        header {
+            background: linear-gradient(to left, #2c3e50, #34495e);
+            color: white;
+            padding: 25px 40px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
 
-            <button type="submit">Upload</button>
-        </form>
-    </div>
+            /* الوسط: العنوان */
+            header h1 {
+                margin: 0;
+                font-size: 2rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 12px;
+            }
+
+        .main-icon {
+            font-size: 2rem;
+        }
+
+        /* اليسار: اسم المنصة */
+        .header-left {
+            position: absolute;
+            left: 40px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .platform-icon {
+            font-size: 1.6rem;
+        }
+    </style>
+
+
+    <main>
+        <section class="upload-container" role="main" aria-label="واجهة رفع أو تسجيل المحاضرات">
+            <h2>🎧 تسجيل أو رفع محاضرة</h2>
+
+            <form method="post" enctype="multipart/form-data" asp-controller="Transcription" asp-action="UploadMedia" aria-label="نموذج رفع محاضرة">
+                <input type="file" name="mediaFile" id="mediaFile" accept="audio/*,video/*" required />
+                <select name="method">
+                    <option value="local">استخدام Whisper محلي</option>
+                    <option value="api">استخدام Deepgram API</option>
+                </select>
+                <button class="upload-btn" type="submit">📤 رفع المحاضرة</button>
+            </form>
+
+            <div id="loading">⏳ يرجى الانتظار، جاري المعالجة...</div>
+
+            <hr />
+
+            <div class="recording-controls">
+                <button class="start-btn" id="startRecording" title="بدء تسجيل فيديو">🎙️ تسجيل فيديو + صوت</button>
+                <button class="audio-only-btn" id="startAudioRecording" title="تسجيل صوت فقط">🎤 تسجيل صوتي</button>
+                <button class="stop-btn" id="stopRecording" disabled>⏹️ إيقاف التسجيل</button>
+            </div>
+
+            <video id="preview" controls style="display:none;" aria-label="معاينة الفيديو"></video>
+            <audio id="audioPreview" controls style="display:none;" aria-label="معاينة الصوت"></audio>
+
+            <form id="recordForm" method="post" enctype="multipart/form-data" asp-controller="Transcription" asp-action="UploadMedia">
+                <input type="file" id="recordedFile" name="mediaFile" hidden />
+                <select name="method">
+                    <option value="local">استخدام Whisper محلي</option>
+                    <option value="api">استخدام Deepgram API</option>
+                </select>
+                <button class="upload-btn" type="submit" id="uploadRecorded" disabled>📤 رفع التسجيل</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        جميع الحقوق محفوظة &copy; @DateTime.Now.Year - منصة تعليمية افتراضية
+    </footer>
 
     <script>
-        const fileInput = document.getElementById('mediaFile');
-        const fileNameDiv = document.getElementById('fileName');
-        const fileLabel = document.querySelector('label.file-label');
+        let mediaRecorder;
+        let recordedChunks = [];
+        let recordingType = null;
 
-        fileLabel.addEventListener('keydown', function (e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                fileInput.click();
-            }
-        });
+        const startBtn = document.getElementById('startRecording');
+        const audioStartBtn = document.getElementById('startAudioRecording');
+        const stopBtn = document.getElementById('stopRecording');
+        const preview = document.getElementById('preview');
+        const audioPreview = document.getElementById('audioPreview');
+        const recordedFileInput = document.getElementById('recordedFile');
+        const uploadRecordedBtn = document.getElementById('uploadRecorded');
 
-        fileInput.addEventListener('change', function () {
-            if (fileInput.files.length > 0) {
-                fileNameDiv.textContent = fileInput.files[0].name;
-            } else {
-                fileNameDiv.textContent = 'No file selected';
-            }
+        function startRecording(mediaConstraints, type) {
+            navigator.mediaDevices.getUserMedia(mediaConstraints)
+                .then(stream => {
+                    recordingType = type;
+                    if (type === 'video') {
+                        preview.srcObject = stream;
+                        preview.style.display = 'block';
+                        audioPreview.style.display = 'none';
+                    } else {
+                        audioPreview.srcObject = stream;
+                        audioPreview.style.display = 'block';
+                        preview.style.display = 'none';
+                    }
+
+                    recordedChunks = [];
+                    mediaRecorder = new MediaRecorder(stream);
+
+                    mediaRecorder.ondataavailable = e => {
+                        if (e.data.size > 0) recordedChunks.push(e.data);
+                    };
+
+                    mediaRecorder.onstop = () => {
+                        const blob = new Blob(recordedChunks, { type: type === 'video' ? "video/webm" : "audio/webm" });
+                        const url = URL.createObjectURL(blob);
+
+                        if (type === 'video') {
+                            preview.src = url;
+                            preview.srcObject = null;
+                        } else {
+                            audioPreview.src = url;
+                            audioPreview.srcObject = null;
+                        }
+
+                        const file = new File([blob], type === 'video' ? "recorded.webm" : "recorded_audio.webm", { type: blob.type });
+                        const dt = new DataTransfer();
+                        dt.items.add(file);
+                        recordedFileInput.files = dt.files;
+                        uploadRecordedBtn.disabled = false;
+                    };
+
+                    mediaRecorder.start();
+
+                    startBtn.disabled = true;
+                    audioStartBtn.disabled = true;
+                    stopBtn.disabled = false;
+                })
+                .catch(err => {
+                    alert("تعذر الوصول إلى الميكروفون أو الكاميرا: " + err.message);
+                });
+        }
+
+        startBtn.onclick = () => startRecording({ audio: true, video: true }, 'video');
+        audioStartBtn.onclick = () => startRecording({ audio: true }, 'audio');
+        stopBtn.onclick = () => {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+            startBtn.disabled = false;
+            audioStartBtn.disabled = false;
+            stopBtn.disabled = true;
+        };
+
+        document.querySelectorAll("form").forEach(f => {
+            f.addEventListener("submit", () => {
+                document.getElementById("loading").style.display = "block";
+            });
         });
     </script>
 </body>

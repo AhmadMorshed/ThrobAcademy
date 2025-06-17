@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Throb.Data.DbContext;
 using Throb.Data.Entities;
 using Throb.Repository.Interfaces;
@@ -37,6 +39,29 @@ namespace ThropAcademy.Web
             {
                 options.MultipartBodyLengthLimit = 104857600; // 100MB
             });
+            builder.Services.AddHttpClient("Deepgram", client =>
+            {
+                client.Timeout = TimeSpan.FromMinutes(10); // تمديد الوقت لتجنب انتهاء الاتصال
+            });
+            builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                     .AddEnvironmentVariables();
+
+
+            // تستخدم builder.Configuration بدلًا من configuration
+            //builder.Services.AddAuthentication(options =>
+            //{
+            //    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            //    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+            //})
+            //    .AddCookie()
+            //    .AddGoogle(options =>
+            //    {
+            //        options.ClientId = builder.Configuration["Google:ClientId"];
+            //        options.ClientSecret = builder.Configuration["Google:ClientSecret"];
+            //        options.Scope.Add("https://www.googleapis.com/auth/drive.readonly");
+            //        options.SaveTokens = true;
+            //    });
+
 
             // الكوكيز
             builder.Services.ConfigureApplicationCookie(options =>

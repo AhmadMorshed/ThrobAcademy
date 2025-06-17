@@ -1,7 +1,7 @@
 ﻿import requests
 import sys
 
-API_KEY = "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"  # مفتاحك هنا
+API_KEY = "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"  # مفتاحك هنا
 
 def generate_questions(text):
     prompt = f"""
@@ -23,7 +23,7 @@ def generate_questions(text):
     }
 
     headers = {
-        "Authorization": f"Bearer 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",
+        "Authorization": f"Bearer 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",
         "Content-Type": "application/json"
     }
 
