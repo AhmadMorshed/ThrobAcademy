@@ -17,10 +17,25 @@ namespace Throb.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.0")
+                .HasAnnotation("ProductVersion", "9.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("CourseDriveSession", b =>
+                {
+                    b.Property<int>("CoursesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DriveSessionsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CoursesId", "DriveSessionsId");
+
+                    b.HasIndex("DriveSessionsId");
+
+                    b.ToTable("DriveSessionCourses", (string)null);
+                });
 
             modelBuilder.Entity("CourseStudent", b =>
                 {
@@ -35,6 +50,21 @@ namespace Throb.Data.Migrations
                     b.HasIndex("StudentsId");
 
                     b.ToTable("CourseStudent");
+                });
+
+            modelBuilder.Entity("ExamRequestModelQuestion", b =>
+                {
+                    b.Property<int>("ExamRequestsExamRequestId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuestionsQuestionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ExamRequestsExamRequestId", "QuestionsQuestionId");
+
+                    b.HasIndex("QuestionsQuestionId");
+
+                    b.ToTable("ExamRequestQuestions", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -283,14 +313,8 @@ namespace Throb.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("DriveSessionId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("EnrolledStudentsCount")
-                        .HasColumnType("int");
 
                     b.Property<int?>("InstructorId")
                         .HasColumnType("int");
@@ -310,8 +334,6 @@ namespace Throb.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DriveSessionId");
-
                     b.HasIndex("InstructorId");
 
                     b.ToTable("Courses");
@@ -329,6 +351,10 @@ namespace Throb.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -339,6 +365,37 @@ namespace Throb.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DriveSessions");
+                });
+
+            modelBuilder.Entity("Throb.Data.Entities.ExamRequestModel", b =>
+                {
+                    b.Property<int>("ExamRequestId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ExamRequestId"));
+
+                    b.Property<int>("EasyCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("HardCount")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IncludeMCQ")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IncludeTrueFalse")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("MediumCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumberOfQuestions")
+                        .HasColumnType("int");
+
+                    b.HasKey("ExamRequestId");
+
+                    b.ToTable("ExamRequestModels");
                 });
 
             modelBuilder.Entity("Throb.Data.Entities.Instructor", b =>
@@ -444,6 +501,67 @@ namespace Throb.Data.Migrations
                     b.ToTable("Pdfs");
                 });
 
+            modelBuilder.Entity("Throb.Data.Entities.Question", b =>
+                {
+                    b.Property<int>("QuestionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuestionId"));
+
+                    b.Property<string>("CorrectAnswer")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Difficulty")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsManual")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("QuestionText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("QuestionType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Transcript")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("QuestionId");
+
+                    b.ToTable("Questions");
+                });
+
+            modelBuilder.Entity("Throb.Data.Entities.QuestionOption", b =>
+                {
+                    b.Property<int>("OptionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OptionId"));
+
+                    b.Property<string>("OptionText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("OptionId");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("QuestionOptions");
+                });
+
             modelBuilder.Entity("Throb.Data.Entities.Student", b =>
                 {
                     b.Property<int>("Id")
@@ -513,6 +631,21 @@ namespace Throb.Data.Migrations
                     b.ToTable("Videos");
                 });
 
+            modelBuilder.Entity("CourseDriveSession", b =>
+                {
+                    b.HasOne("Throb.Data.Entities.Course", null)
+                        .WithMany()
+                        .HasForeignKey("CoursesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Throb.Data.Entities.DriveSession", null)
+                        .WithMany()
+                        .HasForeignKey("DriveSessionsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("CourseStudent", b =>
                 {
                     b.HasOne("Throb.Data.Entities.Course", null)
@@ -524,6 +657,21 @@ namespace Throb.Data.Migrations
                     b.HasOne("Throb.Data.Entities.Student", null)
                         .WithMany()
                         .HasForeignKey("StudentsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ExamRequestModelQuestion", b =>
+                {
+                    b.HasOne("Throb.Data.Entities.ExamRequestModel", null)
+                        .WithMany()
+                        .HasForeignKey("ExamRequestsExamRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Throb.Data.Entities.Question", null)
+                        .WithMany()
+                        .HasForeignKey("QuestionsQuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -581,15 +729,9 @@ namespace Throb.Data.Migrations
 
             modelBuilder.Entity("Throb.Data.Entities.Course", b =>
                 {
-                    b.HasOne("Throb.Data.Entities.DriveSession", "DriveSession")
-                        .WithMany("courses")
-                        .HasForeignKey("DriveSessionId");
-
                     b.HasOne("Throb.Data.Entities.Instructor", null)
                         .WithMany("Courses")
                         .HasForeignKey("InstructorId");
-
-                    b.Navigation("DriveSession");
                 });
 
             modelBuilder.Entity("Throb.Data.Entities.InstructorCourse", b =>
@@ -622,6 +764,17 @@ namespace Throb.Data.Migrations
                     b.Navigation("Course");
                 });
 
+            modelBuilder.Entity("Throb.Data.Entities.QuestionOption", b =>
+                {
+                    b.HasOne("Throb.Data.Entities.Question", "Question")
+                        .WithMany("Options")
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
+                });
+
             modelBuilder.Entity("Throb.Data.Entities.StudentCourse", b =>
                 {
                     b.HasOne("Throb.Data.Entities.Course", "Course")
@@ -650,16 +803,16 @@ namespace Throb.Data.Migrations
                     b.Navigation("StudentCourses");
                 });
 
-            modelBuilder.Entity("Throb.Data.Entities.DriveSession", b =>
-                {
-                    b.Navigation("courses");
-                });
-
             modelBuilder.Entity("Throb.Data.Entities.Instructor", b =>
                 {
                     b.Navigation("Courses");
 
                     b.Navigation("InstructorCourses");
+                });
+
+            modelBuilder.Entity("Throb.Data.Entities.Question", b =>
+                {
+                    b.Navigation("Options");
                 });
 
             modelBuilder.Entity("Throb.Data.Entities.Student", b =>

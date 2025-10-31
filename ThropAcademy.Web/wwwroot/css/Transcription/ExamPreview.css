@@ -1,0 +1,208 @@
+/* wwwroot/css/exam-preview-style.css */
+
+:root {
+    /* ????? ?????? */
+    --primary-dark: #1a202c; /* ???? ???? ?????? ??????? */
+    --secondary-purple: #6b46c1; /* ?????? - ??????? ??????? */
+    --accent-pink: #ed64a6; /* ???? - ?????? */
+    --background-color: #f8f9fa; /* ????? ????? */
+    --card-bg: #ffffff;
+    --text-color: #2d3748;
+    --border-color: #e2e8f0;
+    --input-border: #cbd5e0;
+    /* ????? ????? ?????? */
+    --dark-bg: #2d3748;
+    --dark-card-bg: #4a5568;
+    --dark-text-color: #e2e8f0;
+}
+
+[data-theme="dark"] {
+    --background-color: var(--dark-bg);
+    --card-bg: var(--dark-card-bg);
+    --text-color: var(--dark-text-color);
+    --border-color: #4a5568;
+    --input-border: #666;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    min-height: 100vh;
+    padding: 2rem 0;
+    direction: rtl;
+}
+
+.container {
+    max-width: 900px;
+    width: 100%;
+}
+
+/* ??? ???????? (Header) */
+.exam-header {
+    background: linear-gradient(100deg, var(--secondary-purple), var(--accent-pink));
+    color: #fff;
+    padding: 2rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    margin-bottom: 2.5rem;
+    text-align: center;
+}
+
+.exam-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* ????? ?????? (Question Card) */
+.question-card {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    margin-bottom: 2rem;
+    border-left: 5px solid var(--secondary-purple);
+    transition: box-shadow 0.3s ease;
+}
+
+    .question-card:hover {
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .question-card p strong {
+        font-size: 1.15rem;
+        color: var(--primary-dark);
+        display: block;
+        margin-bottom: 1.5rem;
+    }
+
+[data-theme="dark"] .question-card p strong {
+    color: var(--dark-text-color);
+}
+
+/* ?????? ??????? (Radio/Checkbox) */
+.form-check {
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--input-border);
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+[data-theme="dark"] .form-check {
+    background-color: var(--dark-bg);
+}
+
+.form-check:hover {
+    background-color: rgba(107, 70, 193, 0.05); /* ?????? ???? ??? ??????? */
+    border-color: var(--secondary-purple);
+}
+
+[data-theme="dark"] .form-check:hover {
+    background-color: rgba(107, 70, 193, 0.2);
+}
+
+
+.form-check-input {
+    transform: scale(1.2);
+    margin-right: 0.75rem;
+    accent-color: var(--secondary-purple); /* ????? ?? ??????? */
+}
+
+.form-check-label {
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* ??? ??????? ????? (??????? ?? ??????? ??????) */
+.question-card .form-control[type="text"] {
+    margin-top: 1rem;
+    border: 1px solid var(--secondary-purple);
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+/* ?? ????? ???????? */
+.submit-btn {
+    background: linear-gradient(90deg, var(--secondary-purple), var(--accent-pink));
+    color: white;
+    font-weight: 700;
+    padding: 1rem 3rem;
+    border: none;
+    border-radius: 0.75rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    display: block;
+    width: fit-content;
+    margin: 3rem auto 2rem auto; /* ????? ???? */
+}
+
+.action-btn {
+    background: var(--primary-dark); /* ??? ???? ??????? ?? ?? ??????? */
+    color: white;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.75rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.action-btn-print {
+    background: #e74c3c; /* ??? ????? ??????? */
+}
+
+    .action-btn:hover, .action-btn-print:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+        color: white;
+    }
+
+/* ??????? ??????? ?? PDF */
+@media print {
+    .exam-header, .action-buttons, .submit-btn {
+        display: none !important;
+    }
+
+    body {
+        background-color: white !important;
+        padding: 0;
+        color: black !important;
+    }
+
+    .question-card {
+        box-shadow: none;
+        border-left: none;
+        border: 1px solid #ccc;
+        margin-bottom: 15px;
+    }
+
+    .form-check {
+        border: none;
+        padding: 5px 0;
+    }
+}
+
+/* ??????? ??????? */
+@media (max-width: 768px) {
+    .exam-title {
+        font-size: 1.8rem;
+    }
+
+    .question-card {
+        padding: 1.5rem;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        gap: 10px !important;
+    }
+
+    .action-btn, .action-btn-print {
+        width: 100%;
+    }
+}

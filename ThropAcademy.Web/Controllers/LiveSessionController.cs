@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ThropAcademy.Web.Controllers
 {
+    //[Authorize(Roles = "Student")]
+
     public class LiveSessionController : Controller
     {
         private readonly ILiveSession _liveSession;

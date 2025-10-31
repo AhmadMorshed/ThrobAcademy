@@ -23,7 +23,7 @@ def generate_questions(text):
     }
 
     headers = {
-        "Authorization": f"Bearer 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",
+        "Authorization": f"Bearer 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",
         "Content-Type": "application/json"
     }
 

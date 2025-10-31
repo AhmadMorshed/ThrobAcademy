@@ -1,0 +1,138 @@
+﻿/* wwwroot/css/session-view-style.css */
+
+/* المتغيرات الأساسية */
+:root {
+    --purple-main: #6B46C1;
+    --pink-accent: #D53F8C;
+    --orange-action: #F5A623;
+    --light-bg: #f8f9fa;
+    --dark-text: #212529;
+}
+
+body {
+    background-color: var(--light-bg);
+    font-family: 'Cairo', sans-serif;
+    color: var(--dark-text);
+}
+
+.section-title {
+    color: var(--purple-main);
+    font-size: 2.2rem;
+    font-weight: 800;
+    border-bottom: 3px solid var(--pink-accent);
+    padding-bottom: 10px;
+    display: inline-block;
+}
+
+.video-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* بطاقة الفيديو */
+.video-card {
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease;
+    border: 1px solid #eee;
+}
+
+    .video-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        border-color: var(--purple-main);
+    }
+
+.video-thumbnail {
+    position: relative;
+    display: block;
+    text-decoration: none;
+    background-color: var(--purple-main);
+    height: 180px; /* لتوحيد ارتفاع الصورة المصغرة */
+}
+
+    .video-thumbnail img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: opacity 0.3s ease;
+        opacity: 0.9;
+    }
+
+.video-card:hover .video-thumbnail img {
+    opacity: 0.7;
+}
+
+.play-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 3rem;
+    opacity: 0.9;
+    transition: transform 0.3s ease;
+}
+
+.video-card:hover .play-icon {
+    color: var(--orange-action);
+    transform: translate(-50%, -50%) scale(1.1);
+    opacity: 1;
+}
+
+.video-info {
+    padding: 15px;
+}
+
+.video-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--purple-main);
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: color 0.3s ease;
+}
+
+.video-card:hover .video-title {
+    color: var(--pink-accent);
+}
+
+.video-date {
+    font-size: 0.9rem;
+    color: #606060;
+    margin: 5px 0 0;
+    font-weight: 500;
+}
+
+/* زر رفع فيديو جديد */
+.btn-upload-action {
+    background: linear-gradient(90deg, var(--pink-accent), var(--orange-action));
+    border: none;
+    color: white;
+    font-weight: 700;
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+    .btn-upload-action:hover {
+        background: linear-gradient(90deg, var(--purple-main), var(--pink-accent));
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        color: white;
+    }
+
+/* رسالة التنبيه */
+.alert-info {
+    background-color: rgba(107, 70, 193, 0.1);
+    color: var(--purple-main);
+    border: 1px dashed var(--purple-main);
+    border-radius: 12px;
+    font-weight: 600;
+}

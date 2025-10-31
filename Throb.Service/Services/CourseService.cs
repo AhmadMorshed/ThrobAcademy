@@ -17,24 +17,29 @@ namespace Throb.Service.Services
 
         public void Add(Course course)
         {
-            // التحقق إذا كانت الدورة بنفس الاسم موجودة مسبقًا
-            var existingCourse = _courseRepository.GetAll()
-                                                   .FirstOrDefault(c => c.Name.Equals(course.Name, StringComparison.OrdinalIgnoreCase));
+            // تهيئة اسم الدورة للمقارنة
+            var normalizedName = (course.Name ?? string.Empty).Trim().ToLowerInvariant();
 
-            if (existingCourse != null)
+            // استخدام AsEnumerable لإجراء التحقق غير الحساس لحالة الأحرف في الذاكرة
+            var exists = _courseRepository.GetAll()
+                                          .AsEnumerable() // التحويل إلى التقييم من جانب العميل
+                                          .Any(c => ((c.Name ?? string.Empty).Trim().ToLowerInvariant()) == normalizedName);
+
+            if (exists)
             {
-                // إذا كانت الدورة موجودة، ألقِ استثناء مع رسالة الخطأ
+                // إلقاء استثناء إذا كانت هناك دورة بنفس الاسم موجودة
                 throw new InvalidOperationException($"دورة بنفس الاسم '{course.Name}' موجودة بالفعل.");
             }
 
-            // إذا لم توجد دورة بنفس الاسم، تابع إضافة الدورة الجديدة
+            // إنشاء دورة جديدة
             var mappedCourse = new Course
             {
                 Name = course.Name,
                 Description = course.Description,
                 StartDate = course.StartDate,
                 EndDate = course.EndDate,
-                CreatedAt = DateTime.Now // تعيين تاريخ الإنشاء بشكل لحظي
+                CreatedAt = DateTime.Now,
+                CoursePrice = course.CoursePrice,
             };
 
             _courseRepository.Add(mappedCourse);
@@ -68,6 +73,5 @@ namespace Throb.Service.Services
         {
             _courseRepository.Update(course);
         }
-      
     }
 }

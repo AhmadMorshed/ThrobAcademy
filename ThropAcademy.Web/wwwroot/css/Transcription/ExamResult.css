@@ -1,0 +1,130 @@
+﻿/* wwwroot/css/exam-result-style.css */
+
+/* المتغيرات الأساسية */
+:root {
+    --primary-dark: #1a202c;
+    --secondary-purple: #6b46c1;
+    --accent-pink: #ed64a6;
+    --success-green: #48bb78;
+    --failure-red: #e53e3e;
+    --background-color: #f8f9fa;
+    --card-bg: #ffffff;
+    --text-color: #2d3748;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    /* استخدام تدرج خلفي خفيف لبيئة النتيجة */
+    background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+    color: var(--text-color);
+    min-height: 100vh;
+    padding: 2rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    direction: rtl;
+}
+
+.result-container {
+    max-width: 700px;
+    width: 100%;
+}
+
+.result-card {
+    background: var(--card-bg);
+    padding: 3rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    border: 5px solid var(--secondary-purple); /* حد سميك يطابق هوية المنصة */
+}
+
+/* عنوان النتيجة */
+.result-title {
+    background: linear-gradient(90deg, var(--secondary-purple), var(--accent-pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 2.8rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #eee;
+}
+
+/* رسالة النتيجة - يتم تعيين اللون ديناميكيًا من Razor */
+.result-message {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+/* عرض الدرجة */
+.score-display {
+    background-color: #f0f4f8;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    display: inline-block;
+}
+
+.score-text, .total-text {
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+/* النسبة المئوية (العدّاد) */
+.percentage-ring {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1.5rem 0;
+    font-size: 2rem;
+    font-weight: 800;
+    border: 8px solid #f0f4f8;
+    box-shadow: 0 0 0 4px var(--card-bg);
+    /* يتم حقن التدرج اللوني ديناميكيًا في ملف الـ View */
+}
+
+.percentage-value {
+    /* لجعل القيمة مرئية فوق خلفية التدرج */
+    background: var(--card-bg);
+    padding: 0.5rem;
+    border-radius: 50%;
+    /* يتم تعيين لون النص ديناميكيًا من Razor */
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    font-size: 1.8rem;
+}
+
+/* زر الإجراء */
+.action-btn {
+    background: linear-gradient(90deg, var(--secondary-purple), var(--accent-pink));
+    color: #fff;
+    font-weight: 700;
+    padding: 0.85rem 2.5rem;
+    border: none;
+    border-radius: 0.75rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 1.5rem;
+}
+
+    .action-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        color: #fff;
+    }
+
+.back-btn {
+    background-color: var(--primary-dark);
+    color: white;
+}
+
+    .back-btn:hover {
+        background-color: #2d3748;
+        color: white;
+    }

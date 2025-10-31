@@ -10,7 +10,7 @@ namespace Throb.Repository.Interfaces
     public interface ICourseRepository:IGenericRepository<Course>
     {
         
-        IQueryable<Course> GetAl();
+        IQueryable<Course> GetAll();
 //Course GetById(int id);
         //IEnumerable<Course> GetAll();
         //void Add(Course course);

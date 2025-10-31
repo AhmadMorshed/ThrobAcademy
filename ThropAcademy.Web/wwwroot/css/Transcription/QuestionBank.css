@@ -1,0 +1,199 @@
+﻿/* wwwroot/css/question-bank-style.css */
+
+/* الألوان الرئيسية المستوحاة من المنصة */
+:root {
+    --primary-color: #1a202c; /* أزرق داكن جداً - للخلفية العلوية (Header) */
+    --secondary-color: #6b46c1; /* بنفسجي - اللون الأساسي للتدرج */
+    --accent-color: #ed64a6; /* وردي/أرجواني - اللون الثانوي للتدرج */
+    --background-color: #ffffff; /* أبيض نقي - خلفية الصفحة */
+    --card-bg: #ffffff; /* أبيض - للبطاقات/النماذج */
+    --text-color: #2d3748; /* رمادي داكن - للنصوص */
+    --success-color: #48bb78; /* أخضر للإجابة الصحيحة */
+    --border-color: #e2e8f0;
+    /* ألوان الوضع الداكن */
+    --dark-bg: #2d3748;
+    --dark-card-bg: #4a5568;
+    --dark-text-color: #e2e8f0;
+}
+
+[data-theme="dark"] {
+    --background-color: var(--dark-bg);
+    --card-bg: var(--dark-card-bg);
+    --text-color: var(--dark-text-color);
+    --primary-color: #e2e8f0; /* عكس لون النص */
+    --border-color: #4a5568;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: background-color 0.4s ease, color 0.4s ease;
+    min-height: 100vh;
+    overflow-x: hidden;
+    direction: rtl;
+}
+
+header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    header .title {
+        font-size: 1.8rem;
+        font-weight: 800;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+.theme-toggle {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+    .theme-toggle:hover {
+        transform: scale(1.1);
+    }
+
+.container {
+    padding: 3rem 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-title {
+    background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 2rem;
+    border-bottom: 3px solid var(--border-color);
+    padding-bottom: 0.75rem;
+    text-align: center;
+}
+
+.question-card {
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    margin-bottom: 2rem;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+    .question-card:hover {
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        border-color: var(--secondary-color);
+    }
+
+.question-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+[data-theme="dark"] .question-title {
+    color: var(--dark-text-color);
+}
+
+.question-details p {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.answer-list {
+    margin-top: 1rem;
+    padding-right: 0;
+    list-style: none;
+}
+
+.answer-item {
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    background: var(--border-color);
+    transition: background-color 0.2s;
+}
+
+[data-theme="dark"] .answer-item {
+    background: #3a4455;
+}
+
+.correct-answer-pill {
+    color: var(--success-color);
+    font-weight: 700;
+    background: rgba(72, 187, 120, 0.1);
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--success-color);
+    display: inline-block;
+    margin-top: 0.5rem;
+}
+
+.answer-item.correct-option {
+    background-color: rgba(72, 187, 120, 0.2);
+    color: var(--success-color);
+    font-weight: 600;
+}
+
+.no-questions {
+    text-align: center;
+    color: #9ca3af;
+    font-size: 1.5rem;
+    padding: 4rem;
+    background: var(--card-bg);
+    border-radius: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    border: 1px dashed var(--secondary-color);
+}
+
+.create-exam-btn {
+    background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+    color: white;
+    font-weight: 700;
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 0.75rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+    .create-exam-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        color: white;
+        background: linear-gradient(90deg, #5a329d, #e35497);
+    }
+
+footer {
+    background-color: var(--primary-color);
+    color: var(--dark-text-color);
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.9rem;
+    margin-top: 3rem;
+}

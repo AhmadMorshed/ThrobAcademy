@@ -5,7 +5,7 @@ using Throb.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 
-//[Authorize(Roles = "Admin")]
+[Authorize(Roles = "Admin")]
 
 public class StudentController : Controller
 {
@@ -104,7 +104,9 @@ public class StudentController : Controller
 
         return View(viewName, student);
     }
+
     
+    [HttpGet]
     public IActionResult Update(int id)
     {
         var student = _studentRepository.GetById(id);
@@ -116,7 +118,8 @@ public class StudentController : Controller
 
 
         LoadCourses();
-        return View(student);
+        return Details(id, "Update");
+
 
     }
 

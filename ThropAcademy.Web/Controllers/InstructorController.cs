@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ThropAcademy.Web.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
 
     public class InstructorController : Controller
     {
@@ -100,7 +100,7 @@ namespace ThropAcademy.Web.Controllers
         }
 
         // عرض نموذج تعديل المعلم
-        public IActionResult Edit(int id)
+        public IActionResult Update(int id)
         {
             var instructor = _instructorRepository.GetById(id);
             if (instructor == null)
@@ -114,7 +114,7 @@ namespace ThropAcademy.Web.Controllers
 
         // معالجة تعديل المعلم
         [HttpPost]
-        public IActionResult Edit(Instructor instructor, int[] selectedCourses)
+        public IActionResult Update(Instructor instructor, int[] selectedCourses)
         {
             try
             {
@@ -157,6 +157,15 @@ namespace ThropAcademy.Web.Controllers
                 LoadCourses();
                 return View(instructor);
             }
+        }
+        public IActionResult Details(int id, string viewName = "Details")
+        {
+            var instructor = _instructorRepository.GetById(id);
+
+            if (instructor == null)
+                return NotFound("NotFoundPage");
+
+            return View(viewName, instructor);
         }
 
         // حذف المعلم

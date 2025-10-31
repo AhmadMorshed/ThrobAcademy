@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.Google;
-using Microsoft.AspNetCore.Http.Features;
+﻿using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Throb.Data.DbContext;
@@ -69,7 +67,7 @@ namespace ThropAcademy.Web
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                 options.SlidingExpiration = true;
-                options.LoginPath = "/Account/login";
+                options.LoginPath = "/Account/AccessDenied";
                 options.LogoutPath = "/Account/Logout";
                 options.AccessDeniedPath = "/Account/AccessDenied";
                 options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
@@ -93,8 +91,13 @@ namespace ThropAcademy.Web
             builder.Services.AddScoped<IDriveSessionRepository, DriveSessionRepository>();
             builder.Services.AddScoped<IInstructorCourseRepository, InstructorCourseRepository>();
             builder.Services.AddScoped<ILiveSession, LiveSessionService>();
-            builder.Services.AddScoped<IDriveSession, DriveSessionService>();
+            builder.Services.AddScoped<IDriveSessionService, DriveSessionService>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
+            builder.Services.AddScoped<IQuestionService, QuestionService>();
+            builder.Services.AddScoped<IExamRequestRepository, ExamRequestRepository>();
+            builder.Services.AddScoped<IExamRequestService, ExamRequestService>();
+            
 
             var app = builder.Build();
 
@@ -121,3 +124,4 @@ namespace ThropAcademy.Web
         }
     }
 }
+ 

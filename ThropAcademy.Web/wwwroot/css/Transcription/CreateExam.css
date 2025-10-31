@@ -1,0 +1,157 @@
+﻿/* wwwroot/css/create-exam-style.css */
+
+:root {
+    --primary-color: #1a202c;
+    --secondary-color: #6b46c1; /* البنفسجي */
+    --accent-color: #ed64a6; /* الوردي */
+    --background-color: #f8f9fa;
+    --card-bg: #ffffff;
+    --text-color: #2d3748;
+    --border-color: #e2e8f0;
+    /* ألوان الوضع الداكن */
+    --dark-bg: #2d3748;
+    --dark-card-bg: #4a5568;
+    --dark-text-color: #e2e8f0;
+}
+
+[data-theme="dark"] {
+    --background-color: var(--dark-bg);
+    --card-bg: var(--dark-card-bg);
+    --text-color: var(--dark-text-color);
+    --border-color: #4a5568;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    min-height: 100vh;
+    padding: 2rem 0;
+    direction: rtl;
+}
+
+.container {
+    max-width: 1000px;
+    padding: 0 1rem;
+}
+
+/* تنسيق العنوان الرئيسي */
+.exam-title {
+    background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 2.5rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 0.5rem;
+}
+
+/* تنسيق البطاقة الرئيسية (النموذج) */
+.form-card {
+    background: var(--card-bg);
+    padding: 2.5rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border-color);
+}
+
+.form-group h3 {
+    color: var(--secondary-color);
+    font-weight: 700;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+/* تصميم حقول الإدخال */
+.form-control, .form-check-input {
+    border-radius: 0.5rem;
+    border-color: #ccc;
+    background-color: var(--card-bg);
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .form-control {
+    background-color: var(--dark-card-bg);
+    border-color: #666;
+}
+
+/* أزرار الإرسال */
+.submit-btn {
+    background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+    color: white;
+    border: 0;
+    padding: 1rem 2rem;
+    border-radius: 0.75rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    transition: transform 0.3s ease, box-shadow 0.3s;
+    width: 100%;
+    margin-top: 2rem;
+}
+
+    .submit-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        color: white;
+    }
+
+/* قسم اختيار الأسئلة من البنك */
+.question-bank {
+    border: 1px dashed var(--secondary-color);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    margin-top: 2rem;
+}
+
+.question-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    border-radius: .75rem;
+    background: #fcfcfc;
+    margin-bottom: 0.75rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: background-color 0.2s;
+}
+
+[data-theme="dark"] .question-item {
+    background: var(--dark-bg);
+    border: 1px solid var(--dark-card-bg);
+}
+
+.question-item input[type="checkbox"] {
+    transform: scale(1.5);
+    margin-left: 1rem;
+    accent-color: var(--secondary-color); /* تلوين مربع الاختيار */
+}
+
+.question-details p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.difficulty-badge {
+    font-weight: 600;
+    margin-right: 0.5rem;
+}
+
+/* تهيئة شارات الصعوبة */
+.bg-easy {
+    background-color: #48bb78 !important; /* أخضر */
+    color: white !important;
+}
+
+.bg-medium {
+    background-color: #f6ad55 !important; /* برتقالي */
+    color: var(--text-color) !important;
+}
+
+.bg-hard {
+    background-color: #e53e3e !important; /* أحمر */
+    color: white !important;
+}

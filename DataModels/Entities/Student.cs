@@ -23,7 +23,7 @@ namespace Throb.Data.Entities
         [Required]
         [StringLength(100, MinimumLength = 6)]
         public string Password { get; set; }
-
+        //public string UserId { get; set; }
         public DateTime CreateAt { get; set; } = DateTime.Now;
         public DateTime ModifyDate { get; set; }
         public ICollection<StudentCourse>? StudentCourses { get; set; }

@@ -7,7 +7,7 @@ using ThropAcademy.Web.Models;
 
 namespace ThropAcademy.Web.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
 
     public class UserController : Controller
     {

@@ -1,0 +1,113 @@
+﻿@model Throb.Data.Entities.ExamRequestModel
+@{
+    ViewData["Title"] = "إنشاء امتحان - Throb Academy";
+    // ❌ تم حذف تعريف متغيرات الألوان هنا ونقلها إلى CSS Custom Properties
+}
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+
+    @* ⚠️ ملاحظة: يمكنك دمج الروابط التالية في _Layout.cshtml *@
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    @* ❌ تم حذف وسم <style> بالكامل *@
+</head>
+<body data-theme="light">
+    <div class="container">
+        <h1 class="exam-title">إنشاء امتحان جديد <span>✨</span></h1>
+
+        <div class="form-card">
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+            }
+            @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+            <form method="post" asp-action="CreateExam" asp-controller="Transcription">
+                <input asp-for="ExamRequestId" type="hidden" />
+
+                <div class="form-group">
+                    <h3>الإعدادات الأساسية</h3>
+                    <label class="form-label">عدد الأسئلة الكلي المطلوب</label>
+                    <input type="number" asp-for="NumberOfQuestions" class="form-control" min="1" max="100" required value="@(Model.NumberOfQuestions > 0 ? Model.NumberOfQuestions : 10)" />
+                    <span asp-validation-for="NumberOfQuestions" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <h3>أنواع الأسئلة الآلية</h3>
+                    <div class="d-flex gap-4">
+                        <div class="form-check">
+                            <input type="checkbox" asp-for="IncludeMCQ" class="form-check-input" />
+                            <label class="form-check-label" asp-for="IncludeMCQ">اختيار من متعدد (MCQ)</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" asp-for="IncludeTrueFalse" class="form-check-input" />
+                            <label class="form-check-label" asp-for="IncludeTrueFalse">صح أو خطأ (True/False)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <h3>توزيع الصعوبة (تطبيق آلي)</h3>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label badge bg-easy difficulty-badge w-100">سهلة (Easy)</label>
+                            <input type="number" asp-for="EasyCount" class="form-control" placeholder="العدد" min="0" value="@(Model.EasyCount > 0 ? Model.EasyCount : 0)" />
+                            <span asp-validation-for="EasyCount" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label badge bg-medium difficulty-badge w-100">متوسطة (Medium)</label>
+                            <input type="number" asp-for="MediumCount" class="form-control" placeholder="العدد" min="0" value="@(Model.MediumCount > 0 ? Model.MediumCount : 0)" />
+                            <span asp-validation-for="MediumCount" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label badge bg-hard difficulty-badge w-100">صعبة (Hard)</label>
+                            <input type="number" asp-for="HardCount" class="form-control" placeholder="العدد" min="0" value="@(Model.HardCount > 0 ? Model.HardCount : 0)" />
+                            <span asp-validation-for="HardCount" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <small class="text-muted">ملاحظة: المجموع هنا يجب أن يكون مساوياً لعدد الأسئلة الكلي أو أقل.</small>
+                </div>
+
+                <div class="question-bank mt-5">
+                    <h3>اختيار الأسئلة يدوياً من البنك</h3>
+                    <small class="text-muted d-block mb-3">حدد الأسئلة التي تريد إضافتها تحديداً. إذا لم يتم تحديد أي شيء، سيتم اختيار الأسئلة تلقائياً بناءً على إعدادات الصعوبة أعلاه.</small>
+
+                    @if (ViewBag.Questions != null && ((IEnumerable<Throb.Data.Entities.Question>)ViewBag.Questions).Any())
+                    {
+                        var questionsList = (IEnumerable<Throb.Data.Entities.Question>)ViewBag.Questions;
+                        foreach (var question in questionsList)
+                        {
+                            <div class="question-item">
+                                <div class="question-content text-start">
+                                    <p class="mb-1">@question.QuestionText</p>
+                                    <div class="question-details">
+                                        <span class="badge @(question.QuestionType == "mcq" ? "bg-secondary" : "bg-info")">@question.QuestionType</span>
+                                        <span class="badge @(question.Difficulty == "Easy" ? "bg-easy" : question.Difficulty == "Medium" ? "bg-medium" : "bg-hard")">@question.Difficulty</span>
+                                    </div>
+                                </div>
+                                <input type="checkbox" name="SelectedQuestionIds" value="@question.QuestionId" />
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p class="text-muted text-center">لا يوجد أسئلة متاحة في البنك حاليًا.</p>
+                    }
+                </div>
+
+                <button type="submit" class="submit-btn mt-5">إنشاء الامتحان</button>
+            </form>
+        </div>
+    </div>
+
+    @* ⚠️ ملاحظة: يجب نقل هذا السكريبت إلى _Layout.cshtml إذا لم يكن موجوداً *@
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</body>
+</html>
+    @* 🟢 ربط ملف CSS الخارجي *@
+    <link rel="stylesheet" href="~/css/Transcription//CreateExam.css" asp-append-version="true" />

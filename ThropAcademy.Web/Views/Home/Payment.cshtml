@@ -1,95 +1,65 @@
 ﻿@model Throb.Data.Entities.Student
+@{
+    ViewData["Title"] = "إتمام عملية الدفع";
+    // ❌ تم حذف تعريف متغيرات الألوان هنا ونقلها إلى CSS Custom Properties
+}
 
-<h1 class="text-center my-4">Payment Information</h1>
 
-<form asp-action="CompletePayment" method="post">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
+@* ⚠️ ملاحظة: يمكن دمج Font-Awesome و Cairo Font في ملف _Layout.cshtml لتحميلها مرة واحدة لكل الصفحات. *@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-                <!-- حقل اسم حامل البطاقة -->
-                <div class="form-group">
-                    <label class="col-form-label" for="CardholderName">Cardholder Name</label>
-                    <input type="text" name="CardholderName" class="form-control" placeholder="Enter the cardholder's name" required />
-                </div>
 
-                <!-- حقل رقم البطاقة -->
-                <div class="form-group">
-                    <label class="col-form-label" for="CardNumber">Card Number</label>
-                    <input type="text" name="CardNumber" class="form-control" placeholder="Enter the card number" required />
-                </div>
+<div class="payment-page d-flex align-items-center justify-content-center py-5">
+    <div class="payment-card shadow-lg p-5 rounded-4">
 
-                <!-- حقل رمز الأمان -->
-                <div class="form-group">
-                    <label class="col-form-label" asp-for="Password"></label>
-                    <input asp-for="Password" type="password" class="form-control" placeholder="Enter the security number" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-
-                <!-- زر إتمام الدفع -->
-                <div class="form-group text-center">
-                    <input type="submit" value="Complete Payment" class="btn btn-success btn-lg w-100" />
-                </div>
-
-            </div>
+        <div class="text-center mb-4">
+            <h1 class="page-title fw-bold mb-3"><i class="fas fa-lock me-2"></i> معلومات الدفع</h1>
+            <p class="text-muted small security-message">دفع آمن ومحمي بنظام SSL</p>
         </div>
+
+        <form asp-action="CompletePayment" method="post">
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+
+                    <div class="form-group mb-3 position-relative">
+                        <label class="form-label fw-semibold" for="CardholderName">اسم حامل البطاقة</label>
+                        <i class="fas fa-user input-icon"></i>
+                        <input type="text" name="CardholderName" class="form-control form-control-modern rounded-pill" placeholder="الاسم كما هو على البطاقة" required />
+                    </div>
+
+                    <div class="form-group mb-3 position-relative">
+                        <label class="form-label fw-semibold" for="CardNumber">رقم البطاقة</label>
+                        <i class="fas fa-credit-card input-icon"></i>
+                        <input type="text" name="CardNumber" class="form-control form-control-modern rounded-pill" placeholder="0000 0000 0000 0000" required maxlength="19" />
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6 form-group mb-4 position-relative">
+                            <label class="form-label fw-semibold" for="ExpiryDate">تاريخ الانتهاء</label>
+                            <i class="fas fa-calendar-alt input-icon small-icon"></i>
+                            <input type="text" name="ExpiryDate" class="form-control form-control-modern rounded-pill" placeholder="MM/YY" required maxlength="5" />
+                        </div>
+
+                        <div class="col-6 form-group mb-4 position-relative">
+                            <label class="form-label fw-semibold" for="Cvc">رمز الأمان (CVC)</label>
+                            <i class="fas fa-lock input-icon small-icon"></i>
+                            <input type="password" name="Cvc" class="form-control form-control-modern rounded-pill" placeholder="CVC" required maxlength="4" />
+                        </div>
+                    </div>
+
+
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-action-main btn-lg w-100">
+                            <i class="fas fa-shield-alt me-2"></i> إتمام الدفع
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+
     </div>
-</form>
-
-<!-- تنسيق إضافي لتجربة أفضل -->
-<style>
-    h1 {
-        font-size: 2.5rem;
-        font-weight: bold;
-        color: #333;
-    }
-
-    .form-group {
-        margin-bottom: 1.5rem;
-    }
-
-    .form-control {
-        border-radius: 0.375rem;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        padding: 12px;
-        font-size: 1rem;
-    }
-
-        .form-control:focus {
-            border-color: #28a745;
-            box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
-        }
-
-    .btn-success {
-        background-color: #28a745;
-        border-color: #28a745;
-        font-size: 1.2rem;
-        font-weight: 600;
-        padding: 12px;
-    }
-
-        .btn-success:hover {
-            background-color: #218838;
-            border-color: #1e7e34;
-        }
-
-    .container {
-        padding: 20px;
-    }
-
-    .row {
-        margin-top: 30px;
-    }
-
-    .col-md-6 {
-        background-color: #f9f9f9;
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-
-        .col-md-6 label {
-            font-weight: 600;
-            color: #555;
-        }
-</style>
+</div>
+@* 🟢 ربط ملف CSS الخارجي *@
+<link rel="stylesheet" href="~/css/Home/Payment.css" />

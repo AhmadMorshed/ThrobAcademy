@@ -1,109 +1,100 @@
 ﻿@model Throb.Data.Entities.Student
-
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "تسجيل طالب جديد";
+    // ❌ تم حذف تعريف متغيرات الألوان هنا ونقلها إلى CSS Custom Properties
 }
 
-<h1 class="text-center my-4">Register</h1>
 
-<!-- عرض رسالة التأكيد إذا كانت موجودة -->
-@if (TempData["RegistrationSuccess"] != null)
-{
-    <div class="alert alert-success text-center">
-        @TempData["RegistrationSuccess"]
-    </div>
-}
+@* ⚠️ ملاحظة: يمكنك إضافة رابط Font Awesome و Cairo Font إلى _Layout.cshtml إذا لم يكن موجودًا بالفعل. *@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-<!-- عرض رسالة الدفع إذا كانت موجودة -->
-@if (TempData["PaymentStatus"] != null)
-{
-    <div class="alert alert-success text-center">
-        @TempData["PaymentStatus"]
-    </div>
-}
 
-<form asp-action="Register" method="post">
+<div class="register-page d-flex align-items-center justify-content-center py-5">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-6">
-                <!-- حقل الاسم -->
-                <div class="form-group">
-                    <label class="col-form-label" asp-for="Name">Full Name</label>
-                    <input asp-for="Name" class="form-control" placeholder="Enter your full name" />
-                    <span asp-validation-for="Name" class="text-danger"></span>
-                </div>
+            <div class="col-md-8 col-lg-6">
+                <div class="register-card shadow-lg p-5 rounded-4">
 
-                <!-- حقل البريد الإلكتروني -->
-                <div class="form-group">
-                    <label class="col-form-label" asp-for="Email">Email Address</label>
-                    <input asp-for="Email" type="email" class="form-control" placeholder="Enter your email" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
+                    <h1 class="page-title text-center mb-4">
+                        <i class="fas fa-user-plus me-2"></i> @ViewData["Title"]
+                    </h1>
 
-                <!-- حقل كلمة المرور -->
-                <div class="form-group">
-                    <label class="col-form-label" asp-for="Password">Password</label>
-                    <input asp-for="Password" type="password" class="form-control" placeholder="Enter your password" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
+                    @if (TempData["RegistrationSuccess"] != null || TempData["PaymentStatus"] != null)
+                    {
+                        <div class="alert alert-success custom-alert mb-4">
+                            @(TempData["RegistrationSuccess"] ?? TempData["PaymentStatus"])
+                        </div>
+                    }
 
-                <!-- حقل اختيار الكورس إذا كان موجودًا -->
-                @if (ViewBag.SelectedCourse != null)
-                {
-                    <input type="hidden" name="courseId" value="@ViewBag.SelectedCourse.Id" />
-                    <div class="form-group">
-                        <label>Course: @ViewBag.SelectedCourse.Name</label>
-                    </div>
-                }
+                    <form asp-action="Register" method="post">
 
-                <!-- حقل طريقة الدفع -->
-                <div class="form-group">
-                    <label for="PaymentMethod">Payment Method</label>
-                    <select class="form-control" name="paymentMethod" id="PaymentMethod" required>
-                        <option value="Card">Credit Card</option>
-                        <option value="Cash">Cash on Delivery</option>
-                    </select>
-                </div>
+                        <div class="form-section mb-4">
+                            <h4 class="section-title"><i class="fas fa-user me-2"></i> بيانات الحساب</h4>
 
-                <!-- زر التسجيل -->
-                <div class="form-group text-center">
-                    <button type="submit" class="btn btn-primary btn-lg w-100">Register</button>
+                            <div class="form-group mb-3">
+                                <label asp-for="Name" class="form-label fw-semibold">الاسم الكامل</label>
+                                <input asp-for="Name" class="form-control form-control-modern rounded-pill" placeholder="أدخل اسمك الكامل" />
+                                <span asp-validation-for="Name" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label asp-for="Email" class="form-label fw-semibold">البريد الإلكتروني</label>
+                                <input asp-for="Email" type="email" class="form-control form-control-modern rounded-pill" placeholder="example@domain.com" />
+                                <span asp-validation-for="Email" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label asp-for="Password" class="form-label fw-semibold">كلمة المرور</label>
+                                <input asp-for="Password" type="password" class="form-control form-control-modern rounded-pill" placeholder="أدخل كلمة المرور" />
+                                <span asp-validation-for="Password" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-section payment-section mb-5">
+                            <h4 class="section-title"><i class="fas fa-money-check-alt me-2"></i> الدفع والتسجيل</h4>
+
+                            @if (ViewBag.SelectedCourse != null)
+                            {
+                                <input type="hidden" name="courseId" value="@ViewBag.SelectedCourse.Id" />
+                                <div class="alert course-info-alert mb-3">
+                                    <h5 class="fw-bold mb-0">الكورس المختار: @ViewBag.SelectedCourse.Name</h5>
+                                    <p class="mb-0 small">السعر: <span class="fw-bold price-tag">@ViewBag.SelectedCourse.CoursePrice.ToString("C")</span></p>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="alert alert-warning small text-center">
+                                    لم يتم اختيار كورس محدد للتسجيل.
+                                </div>
+                            }
+
+                            <div class="form-group mb-4">
+                                <label for="PaymentMethod" class="form-label fw-semibold">طريقة الدفع</label>
+                                <select class="form-control form-control-modern rounded-pill" name="paymentMethod" id="PaymentMethod" required>
+                                    <option value="Card">بطاقة ائتمانية (Credit Card)</option>
+                                    <option value="Cash">دفع نقدي عند الاستلام (Cash)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-action-main btn-lg w-100">
+                                <i class="fas fa-check-double me-2"></i> إتمام التسجيل والدفع
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-</form>
+</div>
 
-<!-- تضمين نمط الخطوط والظلال لتحسين المظهر -->
-<style>
-    .form-group {
-        margin-bottom: 1.5rem;
+@* 🟢 ربط ملف CSS الخارجي *@
+<link rel="stylesheet" href="~/css/Home/Register.css" />
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-
-    .form-control {
-        border-radius: 0.375rem;
-    }
-
-    .btn-primary {
-        background-color: #007bff;
-        border-color: #007bff;
-        font-size: 1.1rem;
-        padding: 12px;
-        font-weight: 600;
-    }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }
-
-    h1 {
-        font-size: 2.5rem;
-        font-weight: bold;
-        color: #333;
-    }
-
-    .container {
-        padding: 20px;
-    }
-</style>
+}

@@ -1,0 +1,87 @@
+﻿@model Throb.Data.Entities.ExamRequestModel
+@using System.Linq
+@{
+    ViewData["Title"] = "نتيجة الامتحان - Throb Academy";
+
+    // الألوان المعتمدة (يتم استخدامها كمتغيرات C# لحقنها في الـ CSS)
+    var primaryDark = "#1a202c";
+    var secondaryPurple = "#6b46c1";
+    var accentPink = "#ed64a6";
+    var successGreen = "#48bb78";
+    var failureRed = "#e53e3e";
+
+    // حساب النسبة المئوية
+    double score = ViewBag.Score ?? 0;
+    double total = ViewBag.Total ?? 1;
+    double percentage = total == 0 ? 0 : Math.Round(score / total * 100, 2);
+
+    // تحديد لون النتيجة والرسالة بناءً على النسبة
+    string resultColorHex = percentage >= 70 ? successGreen : failureRed;
+    string resultMessage = percentage >= 90 ? "أداء مبهر! ممتاز!" :
+                           percentage >= 70 ? "تهانينا! لقد نجحت." :
+                           "تحتاج إلى المزيد من المراجعة. لا تستسلم!";
+    string resultIcon = percentage >= 70 ? "🌟" : "💡";
+}
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+
+    @* 🟢 ربط ملف CSS الخارجي *@
+    <link rel="stylesheet" href="~/css/exam-result-style.css" asp-append-version="true" />
+
+    @* ⚠️ ملاحظة: يمكن دمج الروابط التالية في _Layout.cshtml *@
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    @* 🟢 إضافة الـ CSS الداخلي الخاص بالمتغيرات الديناميكية فقط *@
+    <style>
+        .result-message {
+            color: @resultColorHex; /* تعيين لون الرسالة */
+        }
+
+        .percentage-value {
+            color: @resultColorHex; /* تعيين لون القيمة داخل الدائرة */
+        }
+
+        .percentage-ring {
+            /* حقن النسبة المئوية وقيمة اللون في خاصية conic-gradient */
+            background-image: conic-gradient(
+            @resultColorHex 0%,
+            @resultColorHex @(percentage) %, #ddd @(percentage) %, #ddd 100% );
+        }
+    </style>
+</head>
+<body>
+    <div class="result-container">
+        <div class="result-card">
+
+            <h2 class="result-title">نتيجتك في الامتحان @resultIcon</h2>
+
+            <p class="result-message">@resultMessage</p>
+
+            <div class="score-display">
+                <span class="score-text">الدرجة: <strong>@ViewBag.Score</strong></span>
+                <span class="total-text">من <strong>@ViewBag.Total</strong> سؤال</span>
+            </div>
+
+            <div class="percentage-ring">
+                <span class="percentage-value">@percentage%</span>
+            </div>
+
+            <p class="total-text">لقد أجبت بشكل صحيح على @ViewBag.Score من أصل @ViewBag.Total أسئلة.</p>
+
+            <div class="d-flex justify-content-center gap-3 mt-4">
+                <a href="@Url.Action("QuestionBank", "Transcription")" class="action-btn">📚 استعراض بنك الأسئلة</a>
+                <a href="@Url.Action("UploadMedia", "Transcription")" class="action-btn back-btn">🆕 رفع محاضرة جديدة</a>
+            </div>
+        </div>
+    </div>
+    @* ⚠️ ملاحظة: يجب نقل هذا السكريبت إلى _Layout.cshtml إذا لم يكن موجوداً *@
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</body>
+</html>
+    <link rel="stylesheet" href="~/css/Transcription/ExamResult.css" asp-append-version="true" />

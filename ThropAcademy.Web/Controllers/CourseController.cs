@@ -3,10 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using Throb.Data.Entities;
 using Throb.Repository.Interfaces;
 using Throb.Service.Interfaces;
+using UnitsNet;
 
 namespace ThropAcademy.Web.Controllers
 {
-    //[Authorize(Roles ="Admin")]
+    [Authorize(Roles ="Admin")]
     public class CourseController : Controller
     {
         private readonly ICourseService _courseService;
@@ -40,7 +41,8 @@ namespace ThropAcademy.Web.Controllers
                 EndDate = c.Course.EndDate,
                 CoursePrice=c.Course.CoursePrice,
                 Description=c.Course.Description,
-                StudentCount = c.StudentCount
+                StudentCount = c.StudentCount,
+                CreatedAt = DateTime.Now
             }).ToList();
 
             return View(courseList);
@@ -77,7 +79,7 @@ namespace ThropAcademy.Web.Controllers
                 return View(course); // إعادة تحميل النموذج مع الرسالة
             }
         }
-
+        
         public IActionResult Details(int? id, string viewName = "Details")
         {
             var course = _courseService.GetById(id);
@@ -116,8 +118,10 @@ namespace ThropAcademy.Web.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
     }
 }
+
 
 
 

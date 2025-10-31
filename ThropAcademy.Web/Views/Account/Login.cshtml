@@ -1,71 +1,276 @@
 ﻿@model LogInViewModel
 
-<div class="container">
-    <div class="row justify-content-center mt-5">
-        <div class="col-md-6 col-lg-4">
-            <div class="card shadow-lg border-0 rounded-lg">
-                <div class="card-body p-5">
-                    <h2 class="text-center text-primary mb-4">Login</h2>
+<div class="login-page d-flex align-items-center justify-content-center">
+    <div class="login-card shadow-lg p-4 rounded-4 position-relative" style="direction: ltr;">
 
-                    <!-- عرض الأخطاء إذا كانت موجودة -->
-                    @if (!ViewData.ModelState.IsValid)
-                    {
-                        <div class="alert alert-danger">
-                            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-                            {
-                                <p>@error.ErrorMessage</p>
-                            }
-                        </div>
-                    }
-
-                    <form asp-action="Login" method="post">
-                        <div class="form-group">
-                            <label for="Email" class="font-weight-bold">Email</label>
-                            <input type="email" class="form-control" id="Email" asp-for="Email" required />
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="Password" class="font-weight-bold">Password</label>
-                            <input type="password" class="form-control" id="Password" asp-for="Password" required />
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-group form-check">
-                            <input type="checkbox" class="form-check-input" id="RememberMe" asp-for="RememberMe" />
-                            <label class="form-check-label" for="RememberMe">Remember me</label>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary btn-block py-2">Login</button>
-                    </form>
-
-                    <p class="text-center mt-3">
-                        <a href="@Url.Action("SignUp", "Account")" class="text-muted">Don't have an account? Sign up here.</a>
-                    </p>
-                </div>
-            </div>
+        <div class="book-icon-wrapper">
+            <i class="fas fa-book-open book-icon"></i>
         </div>
-    </div>
-</div>
-<style>
-    body {
-        background-color: #f4f6f9;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
 
-    .card {
-        background-color: #ffffff;
-    }
+        <div class="text-center mb-4">
+            <h2 class="fw-bold text-gradient welcome-title">Welcome to LearnHub</h2>
+            <p class="text-muted fade-in-delay">Log in to continue your learning journey</p>
+        </div>
 
-    .btn-primary {
-        background-color: #007bff;
-        border-color: #007bff;
-    }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #004085;
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger" style="z-index: 10;">
+                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    <p class="mb-0">@error.ErrorMessage</p>
+                }
+            </div>
         }
 
-</style>
+        <form asp-action="Login" method="post" autocomplete="off" id="loginForm">
+            
+            <div class="form-group mb-3">
+                <label for="Email" class="form-label fw-semibold">Email</label>
+                <input type="email" class="form-control form-control-modern rounded-pill" id="Email" asp-for="Email" placeholder="Enter your email" required autocomplete="off" />
+                <span asp-validation-for="Email" class="text-danger small"></span>
+            </div>
 
+            <div class="form-group mb-3">
+                <label for="Password" class="form-label fw-semibold">Password</label>
+                <input type="password" class="form-control form-control-modern rounded-pill" id="Password" asp-for="Password" placeholder="Enter your password" required autocomplete="current-password" />
+                <span asp-validation-for="Password" class="text-danger small"></span>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="RememberMe" asp-for="RememberMe" />
+                    <label class="form-check-label" for="RememberMe">Remember me</label>
+                </div>
+                <a href="#" class="text-decoration-none small forgot-password-link">Forgot Password?</a>
+            </div>
+
+            <button type="submit" class="btn btn-gradient btn-submit w-100 py-2 rounded-pill" id="loginButton">Start Learning</button>
+        </form>
+
+        <p class="text-center mt-4 small signup-link">
+            <a href="@Url.Action("SignUp", "Account")" class="text-decoration-none">Don't have an account? <span class="fw-semibold">Join now</span></a>
+        </p>
+    </div>
+</div>
+
+
+@* 🟢 ربط ملف CSS الخارجي *@
+<link rel="stylesheet" href="~/css/Account/Login.css" /> 
+
+@* 🟢 ربط ملف JavaScript الخارجي *@
+@section Scripts {
+    <script src="~/js/Account/Login.js"></script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@* @{
+    // تحديد الألوان الرئيسية
+    var purpleMain = "#6B46C1";
+    var pinkAccent = "#D53F8C";
+    var orangeAction = "#F5A623";
+    var darkText = "#2d3748";
+} *@
+@* <style>
+    /* 1. المتغيرات الأساسية والتصميم العام */
+    .login-page {
+        min-height: 100vh;
+        /* خلفية ثابتة وجذابة */
+        background: linear-gradient(135deg, @pinkAccent 0%, @purpleMain 100%);
+        font-family: 'Cairo', 'Segoe UI', sans-serif;
+        color: @darkText;
+        position: relative;
+        overflow: hidden;
+    }
+
+        /* تأثيرات الفقاعات البصرية في الخلفية */
+        .login-page::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: -100px;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: moveBubble 15s infinite alternate;
+            z-index: 0;
+        }
+
+        .login-page::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            animation: moveBubble 12s infinite alternate reverse;
+            z-index: 0;
+        }
+
+    @@keyframes moveBubble {
+        0% {
+            transform: translate(0, 0);
+        }
+
+        100% {
+            transform: translate(100px, 50px);
+        }
+    }
+
+    /* 2. تصميم البطاقة (Login Card) */
+    .login-card {
+        background-color: rgba(255, 255, 255, 0.95); /* خلفية شبه شفافة */
+        backdrop-filter: blur(5px); /* تأثير ضبابي زجاجي */
+        -webkit-backdrop-filter: blur(5px);
+        width: 100%;
+        max-width: 420px;
+        padding: 3rem 2.5rem;
+        border-radius: 20px !important;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        z-index: 10;
+    }
+
+    /* 3. رمز الكتاب الجديد (Icon) */
+    .book-icon-wrapper {
+        position: absolute;
+        top: -40px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, @orangeAction, @pinkAccent );
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 20;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        border: 4px solid white;
+        transition: transform 0.3s ease;
+    }
+
+        .book-icon-wrapper:hover {
+            transform: translateX(-50%) rotate(-5deg) scale(1.05);
+        }
+
+        .book-icon-wrapper .book-icon {
+            color: white;
+            font-size: 2.2rem;
+        }
+
+    .welcome-title {
+        margin-top: 30px;
+    }
+
+    /* 4. الإدخالات والأزرار */
+    .text-gradient {
+        background: linear-gradient(90deg, @pinkAccent, @orangeAction );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .form-control-modern {
+        border: 1px solid #ccc;
+        height: 48px;
+        padding: 0 1.5rem;
+    }
+
+        .form-control-modern:focus {
+            border-color: @purpleMain;
+            box-shadow: 0 0 0 3px rgba(107, 70, 193, 0.2);
+        }
+
+    .forgot-password-link {
+        color: @purpleMain;
+        font-weight: 500;
+    }
+
+    .signup-link a {
+        color: @pinkAccent;
+    }
+
+    .btn-gradient {
+        background: linear-gradient(90deg, @pinkAccent, @orangeAction );
+        border: none;
+        color: white;
+        font-weight: 700;
+        font-size: 1.1rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-submit:hover {
+        background: linear-gradient(90deg, @purpleMain, @pinkAccent );
+        transform: scale(1.02);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    /* تأثير Ripple بسيط على النقر */
+    #loginButton::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 0;
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        transition: width 0.4s ease, height 0.4s ease;
+        z-index: 0;
+    }
+
+    #loginButton:active::after {
+        width: 300px;
+        height: 300px;
+    }
+
+    .btn-gradient > * {
+        position: relative;
+        z-index: 1;
+    }
+
+    /* إخفاء الرمز القديم */
+    .book-icon {
+        display: none !important;
+    }
+</style> *@
+
+@* <script>
+    // إزالة كود تغيير الخلفية الذي يشتت الانتباه
+
+    // تأثير الضغط على الزر
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        const button = document.getElementById('loginButton');
+        // نضمن أن الزر يرتد قليلاً عند الضغط
+        button.style.transform = 'scale(0.98)';
+        setTimeout(() => {
+            button.style.transform = 'scale(1)';
+        }, 100);
+    });
+</script> *@

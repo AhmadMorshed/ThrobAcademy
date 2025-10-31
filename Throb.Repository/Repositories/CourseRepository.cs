@@ -16,7 +16,7 @@ namespace Throb.Repository.Repositories
             _context = context;
         }
 
-        public IQueryable<Course> GetAl()
+        public IQueryable<Course> GetAll()
         {
             return _context.Courses
                 .Include(s =>s.InstructorCourses )

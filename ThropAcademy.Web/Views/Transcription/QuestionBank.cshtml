@@ -1,0 +1,101 @@
+﻿@model List<Throb.Data.Entities.Question>
+@using System.Linq
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>بنك الأسئلة - Throb Academy</title>
+
+    @* ⚠️ ملاحظة: يمكن دمج الروابط التالية في _Layout.cshtml *@
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    @* ❌ تم حذف وسم <style> بالكامل *@
+</head>
+<body>
+    <header>
+        <h1 class="title">بنك الأسئلة <span style="color: var(--accent-color);">✨</span></h1>
+        <button class="theme-toggle" id="themeToggle" title="تبديل المظهر">🌙</button>
+    </header>
+
+    <div class="container">
+        <div class="text-center mb-5">
+            <a href="@Url.Action("CreateExam", "Transcription")" class="btn create-exam-btn">إنشاء امتحان جديد من البنك</a>
+        </div>
+
+        @if (Model == null || !Model.Any())
+        {
+            <div class="no-questions">
+                <p>⚠️ لا يوجد أسئلة في بنك الأسئلة حاليًا. قم بتوليد أسئلة من محاضرة لتبدأ.</p>
+            </div>
+        }
+        else
+        {
+            var mcqQuestions = Model.Where(q => q.QuestionType == "mcq").ToList();
+            if (mcqQuestions.Any())
+            {
+                <h2 class="section-title">📝 أسئلة الاختيار من متعدد</h2>
+                foreach (var question in mcqQuestions)
+                {
+                    <div class="question-card">
+                        <div class="question-title">@question.QuestionText</div>
+                        <div class="question-details">
+                            <p><strong>الصعوبة:</strong> <span class="badge @(question.Difficulty == "Hard" ? "bg-danger" : question.Difficulty == "Medium" ? "bg-warning text-dark" : "bg-success")">@question.Difficulty</span></p>
+                            <p><strong>الإجابة الصحيحة:</strong> <span class="correct-answer-pill">@question.CorrectAnswer</span></p>
+                        </div>
+
+                        @if (question.Options != null && question.Options.Any())
+                        {
+                            <ul class="answer-list">
+                                <p class="mt-3 mb-2"><strong>خيارات الإجابة:</strong></p>
+                                @foreach (var option in question.Options)
+                                {
+                                    <li class="answer-item @(option.OptionText == question.CorrectAnswer ? "correct-option" : "")">
+                                        @option.OptionText
+                                    </li>
+                                }
+                            </ul>
+                        }
+                    </div>
+                }
+            }
+
+            var trueFalseQuestions = Model.Where(q => q.QuestionType == "truefalse").ToList();
+            if (trueFalseQuestions.Any())
+            {
+                <h2 class="section-title">✅ أسئلة صح أو خطأ</h2>
+                foreach (var question in trueFalseQuestions)
+                {
+                    <div class="question-card">
+                        <div class="question-title">@question.QuestionText</div>
+                        <div class="question-details">
+                            <p><strong>الصعوبة:</strong> <span class="badge @(question.Difficulty == "Hard" ? "bg-danger" : question.Difficulty == "Medium" ? "bg-warning text-dark" : "bg-success")">@question.Difficulty</span></p>
+                            <p><strong>الإجابة الصحيحة:</strong> <span class="correct-answer-pill">@question.CorrectAnswer</span></p>
+                        </div>
+                    </div>
+                }
+            }
+
+            @if (!mcqQuestions.Any() && !trueFalseQuestions.Any())
+            {
+                <div class="no-questions">
+                    <p>⚠️ لا يوجد أسئلة في بنك الأسئلة حاليًا. قم بتوليد أسئلة من محاضرة لتبدأ.</p>
+                </div>
+            }
+        }
+    </div>
+
+    <footer>
+        <p>جميع الحقوق محفوظة &copy; @DateTime.Now.Year - Throb Academy</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdlZxGxvAagm" crossorigin="anonymous"></script>
+
+    @* 🟢 ربط ملف JavaScript الخارجي *@
+    <script src="~/js/Transcription/QuestionBank.js" asp-append-version="true"></script>
+    @* 🟢 ربط ملف CSS الخارجي *@
+    <link rel="stylesheet" href="~/css/Transcription//QuestionBank.css" asp-append-version="true" />
+
+</body>
+</html>

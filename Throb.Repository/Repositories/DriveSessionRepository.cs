@@ -1,8 +1,9 @@
-﻿using Throb.Data.DbContext;
+﻿using Microsoft.EntityFrameworkCore;
+using Throb.Data.DbContext;
 using Throb.Data.Entities;
-using System.Linq;
-
 using Throb.Repository.Interfaces;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Throb.Repository.Repositories
 {
@@ -15,20 +16,19 @@ namespace Throb.Repository.Repositories
             _context = context;
         }
 
-        //public void Add(DriveSession driveSession)
-        // =>_context.Add(driveSession);
+        public async Task<DriveSession> GetByIdAsync(int id)
+        {
+            return await _context.DriveSessions
+                .Include(ds => ds.Courses)
+                .FirstOrDefaultAsync(ds => ds.Id == id);
+        }
 
-        //public void Delete(DriveSession driveSession)
-        // =>_context.Remove(driveSession);
-
-        //public IEnumerable<DriveSession> GetAll() => _context.DriveSessions.ToList();
-
-        //public DriveSession GetById(int id)
-
-        //=>_context.DriveSessions.Find(id);
-
-        //public void Update(DriveSession driveSession)
-        //    =>_context.Update(driveSession);
-
+        public async Task<IEnumerable<DriveSession>> GetByCourseIdAsync(int courseId)
+        {
+            return await _context.DriveSessions
+                .Include(ds => ds.Courses)
+                .Where(ds => ds.Courses.Any(c => c.Id == courseId))
+                .ToListAsync();
+        }
     }
 }

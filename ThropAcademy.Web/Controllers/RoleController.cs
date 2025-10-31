@@ -8,7 +8,7 @@ using ThropAcademy.Web.Models; // تأكد من إضافة المسار الصح
 
 namespace ThropAcademy.Web.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles ="Admin")]
 
     public class RoleController : Controller
     {
@@ -166,7 +166,7 @@ namespace ThropAcademy.Web.Controllers
                     UserId = user.Id,
                     UserName = user.UserName
                 };
-                if (await _userManager.IsInRoleAsync(user, role.Name))
+                if (await _userManager.IsInRoleAsync(user, role.Name))     
                     userInRole.IsSelected = true;
                 else
                     userInRole.IsSelected = false;
